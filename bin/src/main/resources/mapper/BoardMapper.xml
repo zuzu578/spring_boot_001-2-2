@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao">
+	<select id="selectName" resultType="String">
+	 SELECT count(*) FROM board
+	</select>
+	
+	<select id="getBoardList" resultType="map">
+		SELECT board_num AS board_Num  , userid AS user_Id , boardtopic AS board_Topic , board_comment AS board_Comment,rdate AS Rdate, nclick AS Nclick, file_dir AS File_dir FROM board
+	 </select>
+</mapper>

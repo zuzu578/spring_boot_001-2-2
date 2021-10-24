@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao">
+
+	<select id="searchSongs" resultType="map"
+		parameterType="hashmap">
+
+		SELECT
+		t1.song_no,
+		t1.song_name,
+		t1.song_genre,
+		t1.song_type,
+		t2.file_name,
+		t2.file_path,
+		t2.SAMPLE_SONG
+
+		FROM
+		TB_TAIKO_SONGS t1
+
+		LEFT OUTER
+		JOIN tb_taiko_file t2 ON t1.song_no =
+		t2.song_no
+		WHERE
+		t1.song_name LIKE
+		'%' || #{searchKeyword} || '%'
+		and
+		t1.song_type =
+		#{searchSongType}
+
+
+	</select>
+
+
+	<select id="selectSongInfo" resultType="String"
+		parameterType="String">
+
+		SELECT
+
+		t1.song_name
+
+
+		FROM TB_TAIKO_SONGS t1
+
+
+		WHERE t1.song_no
+		= #{songNo}
+
+	</select>
+
+	<select id="getPagination" resultType="map"
+		parameterType="hashMap">
+		select * from(
+
+		select row_number() over(order by
+		t2.FILE_NAME asc)
+		num,
+		t1.song_no,
+		t1.song_name,
+		t1.song_genre,
+		t1.song_type,
+		t2.file_name,
+		t2.file_path,
+		t2.sample_song
+		from
+		TB_TAIKO_SONGS t1
+		LEFT OUTER JOIN tb_taiko_file t2 ON t1.SONG_NO =
+		t2.SONG_NO
+		WHERE SONG_GENRE = #{genre}
+		AND t1.SONG_TYPE =
+		#{searchSelect})
+		where num between #{START} AND #{END}
+
+	</select>
+
+	<select id="songAllCount" resultType="int"
+		parameterType="hashmap">
+		SELECT COUNT(*) FROM
+		(SELECT
+		t1.song_no,
+		t1.song_name,
+		t1.song_genre,
+		t1.song_type,
+		t2.file_name,
+		t2.file_path,
+		t2.sample_song
+		from TB_TAIKO_SONGS t1
+		LEFT OUTER JOIN tb_taiko_file t2 ON t1.SONG_NO =
+		t2.SONG_NO
+		WHERE SONG_GENRE = #{genre}
+		AND t1.SONG_TYPE =
+		#{searchSelect})
+
+
+
+	</select>
+
+
+	<select id="getDataBaseSong" resultType="map"
+		parameterType="hashmap">
+
+
+		SELECT
+		t1.song_no,
+		t1.song_name,
+		t1.song_genre,
+		t1.song_type,
+		t2.file_name,
+		t2.file_path,
+		t2.SAMPLE_SONG
+
+		FROM
+		TB_TAIKO_SONGS t1
+
+		LEFT OUTER
+		JOIN tb_taiko_file t2 ON t1.song_no =
+		t2.song_no
+
+
+		WHERE SONG_GENRE = #{genre}
+		and t1.SONG_TYPE =
+		#{searchSelect}
+		ORDER BY SONG_NO
+
+
+
+	</select>
+	<insert id="insertSongs" parameterType="hashmap">
+
+		INSERT INTO
+		TB_SONG(song_no, song_name,GENRE)
+		VALUES
+		(taiko_sequence.nextval,#{songList},#{songGenre})
+
+
+	</insert>
+
+
+	<delete id="deleteOldSongList">
+		delete TB_SONG
+
+	</delete>
+
+	<insert id="insertSongContents" parameterType="hashmap">
+		INSERT INTO
+		TB_TAIKO_FILE(song_no, FILE_NAME, FILE_PATH,SAMPLE_SONG)
+		VALUES
+		(#{songNo},#{musicSheetFileName},#{filePath},#{taikoSongName})
+
+	</insert>
+
+	<insert id="insertCustomeSongInfo" parameterType="hashmap">
+		INSERT INTO
+		TB_TAIKO_FILE(song_no, FILE_NAME, FILE_PATH,SAMPLE_SONG)
+		VALUES
+		(TB_TAIKO_SONGLIST_SEQ.CURRVAL,#{musicSheetFileName},#{filePath},#{sampleSongName})
+
+
+	</insert>
+
+	<insert id="insertCustomeSongs" parameterType="hashmap">
+		INSERT INTO
+		tb_taiko_songs(song_no, song_genre, song_name,song_type)
+		VALUES
+		(TB_TAIKO_SONGLIST_SEQ.nextval,#{songGenre},#{songName},#{select_song_status})
+
+
+	</insert>
+
+	<insert id="insertWikiSongInfo" parameterType="hashmap">
+		INSERT INTO
+		tb_taiko_wiki_content(song_description, song_description2,
+		song_writer,musicsheet_writer,song_recorded_version,song_name,youtube_url,SONG_GENRE,song_no)
+		VALUES
+		(#{songDescription},#{song_description2},#{songWriter},#{musicSheetWriter},
+		#{musicVersion},#{songName},#{youtubeUrl},#{songGenre},taiko_wiki_seq.nextval)
+
+
+	</insert>
+
+	<insert id="insertWikiSongLevel" parameterType="hashmap">
+
+		INSERT INTO
+		tb_taiko_song_level(song_no,kantan,hutsuu,muzukashi,oni,ura)
+		VALUES(taiko_wiki_seq.currval,#{kantanLevel},#{hutsuuLevel},#{muzukashiLevel},#{oniLevel},#{uraLevel})
+
+	</insert>
+	<insert id="insertImageInfo" parameterType="hashmap">
+		INSERT INTO
+		tb_taiko_image(file_name,file_path,image_status,song_no)
+		VALUES(#{songImageName},#{filePath},'wiki',taiko_wiki_seq.currval)
+
+	</insert>
+
+	<select id="getSongNumber" resultType="String"
+		parameterType="hashmap">
+		select song_no from tb_taiko_songs where song_name =
+		#{songName}
+
+	</select>
+
+
+	<select id="getWikiResult" resultType="com.example.demo.wikidto.TaikoWikiDto"
+		parameterType="hashmap">
+		SELECT
+		t1.SONG_DESCRIPTION2 as songDescription2,
+		t1.SONG_WRITER as songWriter,
+		t1.SONG_RECORDED_VERSION as songRecordVersion,
+		t1.SONG_NAME as songName,
+		t1.SONG_GENRE as songGenre,
+		t1.SONG_NO as songNo,
+		t1.youtube_url as youtubeUrl,
+		t1.SONG_DESCRIPTION as songDescription,
+		t2.kantan as kantan,
+		t2.hutsuu as hutsuu,
+		t2.muzukashi as muzukashi,
+		t2.oni as oni,
+		t2.ura as ura,
+		t3.file_name as fileName,
+		t3.file_path as filePath
+		FROM TB_TAIKO_WIKI_CONTENT t1
+		INNER JOIN TB_TAIKO_SONG_LEVEL t2 ON t1.song_no = t2.SONG_NO
+		INNER JOIN TB_TAIKO_IMAGE t3 ON t1.song_no = t3.SONG_NO
+		WHERE t1.SONG_NAME = #{songName}
+
+	</select>
+
+</mapper>

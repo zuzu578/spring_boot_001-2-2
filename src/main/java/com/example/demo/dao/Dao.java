@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 
 import com.example.demo.controller.PagingDto;
+import com.example.demo.freeBoardDto.FreeBoard;
 import com.example.demo.wikidto.TaikoWikiDto;
 
 @Repository
@@ -116,6 +117,25 @@ public class Dao {
 
 	public List<TaikoWikiDto> getWikiResult(HashMap<String, Object> searchParam) {
 		return sqlSession.selectList(NAMESPACE + "getWikiResult", searchParam);
+	}
+	// 자유게시판 이미지 업로드 
+	public void uploadFreeBoardFile(HashMap<String, Object> paramMap) {
+		 sqlSession.insert(NAMESPACE+"insertFreeBoardFile",paramMap);
+		
+	}
+	// 자유게시판 댓글 작성 
+	public void writeFreeBoard(HashMap<String, Object> paramMap) {
+		sqlSession.insert(NAMESPACE+"writeFreeBoard",paramMap);
+		
+	}
+
+	public List<FreeBoard> getFreeBoard(HashMap<String, Object> paramMap) {
+		return sqlSession.selectList(NAMESPACE+"getFreeBoard",paramMap);
+		
+	}
+
+	public int freeBoardCount() {
+		return sqlSession.selectOne(NAMESPACE+"getFreeBoardCount");
 	}
 
 }

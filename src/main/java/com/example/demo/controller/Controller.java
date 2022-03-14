@@ -1,12 +1,16 @@
 package com.example.demo.controller;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,17 +24,26 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dao.Dao;
+import com.example.demo.freeBoardDto.FreeBoard;
 import com.example.demo.wikidto.TaikoWikiDto;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.apache.logging.log4j.message.Message;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -56,7 +69,7 @@ public class Controller {
 
 	private static String FILE_SERVER_PATH = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp";
 
-	private static String FileSavePath = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp/resources/assets";
+	private static String FileSavePath = "/Users/helloworld/git/spring_boot_001-2-5/src/main/webapp/resources/assets/freeBoardImage";
 
 	@Autowired
 	private Dao dao;
@@ -67,6 +80,12 @@ public class Controller {
 	public String testJsp(HttpServletRequest req, Model model) {
 
 		return "test";
+	}
+	
+	@RequestMapping("/freeTalkBoard")
+	public String freeTalkBoard(HttpServletRequest req , Model model) {
+		
+		return "freeTalkBoard";
 	}
 
 	/**
@@ -532,4 +551,83 @@ public class Controller {
 		
 		return "searchSongWiki";
 	}
+	
+	// TODO : file 첨부안할시 로직 구현 
+	@RequestMapping(value = "/uploadFreeBoardFile", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<?> uploadFile(@RequestParam("uploadfile") MultipartFile uploadfile) {
+	  HashMap<String , Object> paramMap = new HashMap<String, Object>();
+	  try {
+	    String fileName = uploadfile.getOriginalFilename();
+	    String filePath = Paths.get(FileSavePath, fileName).toString();
+	   
+	    if(fileName.equals("") || fileName == null) {
+	    	fileName = "";
+	    	filePath = "";
+	    	paramMap.put("fileName", fileName);
+		    paramMap.put("filePath", FileSavePath);
+		    
+		    dao.uploadFreeBoardFile(paramMap);
+	    }else {
+	    	BufferedOutputStream stream =
+	    	new BufferedOutputStream(new FileOutputStream(new File(filePath)));
+	    	stream.write(uploadfile.getBytes());
+	        stream.close();
+	        paramMap.put("fileName", fileName);
+	        paramMap.put("filePath", FileSavePath);
+	    	dao.uploadFreeBoardFile(paramMap);
+	    	
+	    }
+	  
+	  }
+	  catch (Exception e) {
+	    System.out.println(e.getMessage());
+	    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	  }
+	  
+	  return new ResponseEntity<>(HttpStatus.OK);
+	} 
+
+	@PostMapping("/freeBoard")
+	public ResponseEntity<?> writeFreeBoard(@RequestParam("nickName") String nickName,@RequestParam("comment") String comment) {
+		HashMap<String,Object> paramMap = new HashMap<String , Object>();
+		try {
+			paramMap.put("comment", comment);
+			paramMap.put("nickName", nickName);
+			
+			dao.writeFreeBoard(paramMap);
+			
+			return new ResponseEntity<>(HttpStatus.OK);
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	@GetMapping("/freeBoard")
+	public ResponseEntity<?> getFreeBoard(HttpServletRequest req){
+		HashMap<String,Object> paramMap = new HashMap<String,Object>();
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+		String nowPage = req.getParameter("nowPage");
+		String cntPerPage = "20";
+		if (nowPage == null) {
+			nowPage = "1";
+
+		}
+		try {
+			int total = dao.freeBoardCount();
+			PagingDto pagingResult = new PagingDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			paramMap.put("start", pagingResult.getStart());
+			paramMap.put("end", pagingResult.getEnd());
+			List<FreeBoard> boardList = dao.getFreeBoard(paramMap);
+			return new ResponseEntity<>(boardList,headers, HttpStatus.OK);
+			
+		}catch(Exception e) {
+		    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+
 }

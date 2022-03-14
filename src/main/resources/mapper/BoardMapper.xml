@@ -186,6 +186,20 @@
 		VALUES(taiko_wiki_seq.currval,#{kantanLevel},#{hutsuuLevel},#{muzukashiLevel},#{oniLevel},#{uraLevel})
 
 	</insert>
+	
+	<insert id="insertFreeBoardFile" parameterType="hashMap">
+		INSERT INTO 
+		TAIKO_BOARD_FILE (idx,fileName,filePath)
+		VALUES(taiko_free_board_seq.nextval ,'${fileName}','${filePath}')
+	</insert>
+	
+	
+	<insert id="writeFreeBoard" parameterType="hashMap">
+		INSERT INTO 
+		taiko_board (idx , nickname , boardCOMMENT)
+		VALUES(taiko_free_board_seq.currval ,'${nickName}' ,'${comment}')
+	</insert> 
+	
 	<insert id="insertImageInfo" parameterType="hashmap">
 		INSERT INTO
 		tb_taiko_image(file_name,file_path,image_status,song_no)
@@ -225,5 +239,34 @@
 		WHERE t1.SONG_NAME = #{songName}
 
 	</select>
+	
+	<select id="getFreeBoard" resultType="com.example.demo.freeBoardDto.FreeBoard">
+	SELECT * FROM (
+			SELECT row_number() over(ORDER BY t1.dateTime ASC) num ,
+			t1.idx AS idx,
+			t1.nickname as nickName,
+			t1.boardcomment as comment,
+			t1.datetime as dateTime,
+			t2.filename AS fileName,
+			t2.filepath AS filePath
+			FROM taiko_board t1 LEFT OUTER JOIN taiko_board_file t2 ON t1.idx = t2.idx
+		)
+		where num between  #{start} AND #{end}
+		
+	</select>
 
+	<select id="getFreeBoardCount" resultType="int">
+	
+	
+	  SELECT count(*)FROM (
+			SELECT row_number() over(ORDER BY t1.dateTime ASC) num ,
+			t1.idx AS idx,
+			t1.nickname as nickName,
+			t1.boardcomment as boardComment,
+			t1.datetime as dateTime,
+			t2.filename AS fileName,
+			t2.filepath AS filePath
+			FROM taiko_board t1 LEFT OUTER JOIN taiko_board_file t2 ON t1.idx = t2.idx
+		)
+	</select>
 </mapper>

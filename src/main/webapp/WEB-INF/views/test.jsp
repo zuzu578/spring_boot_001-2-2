@@ -106,6 +106,9 @@
 			<p class="para">
 				<a href="/" style="color: white; text-decoration: none"> 메인</a>
 			</p>
+			<p class="para">
+				<a href="/freeTalkBoard" style="color: white; text-decoration: none"> 자유게시판</a>
+			</p>
 		</div>
 
 

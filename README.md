@@ -28,3 +28,10 @@
 # 위키 문서 생성하기 
 <img width="1116" alt="스크린샷 2021-10-24 오후 11 50 18" src="https://user-images.githubusercontent.com/69393030/138599410-7796c734-479c-44e2-ad8d-b11fa472acf6.png">
 또한 유저들이 자유롭게 곡에대한 위키 문서를 생성할수 있는 기능을 구현했습니다. 
+
+# 자유게시판 create api 생성
+1) 유저들이 자유롭게 익명으로 이미지를 올리고 댓글형식의 게시판을 구현하는것을 중점으로한다.
+<img width="1131" alt="스크린샷 2022-03-14 오후 10 27 40" src="https://user-images.githubusercontent.com/69393030/158181440-d88d035d-bb38-4ef2-8159-8a940c8bef05.png">
+2) list 불러오는 api 생성 (2022-3-14)
+<img width="1131" alt="스크린샷 2022-03-14 오후 10 28 30" src="https://user-images.githubusercontent.com/69393030/158181581-f154ce6b-65fd-4885-90d5-4bac3f0843f5.png">
+

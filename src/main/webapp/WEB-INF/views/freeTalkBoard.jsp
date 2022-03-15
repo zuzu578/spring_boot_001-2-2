@@ -39,6 +39,15 @@ body {
 .button{
 	text-align:right;
 }
+
+.commentArea{
+	border-radius:10px;
+	padding:10px;
+	
+	margin-top:200px;
+	background-color:white;
+	
+}
 </style>
 </head>
 <body>
@@ -85,8 +94,16 @@ body {
 <button type="button" onclick="uploadFile();" class="btn btn-primary">작성</button>
 </div>
 </form>
+
+
+
+
+<div class="commentArea">
+
+
+</div>
 		
-	</div>
+</div>
 
 
 
@@ -94,8 +111,39 @@ body {
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
+const getFreeBoardData = () => {
+	$.ajax({
+		url:"/freeBoard",
+		type:"GET",
+		success: function(data){
+			console.log(data);
+			var commentList = data.boardList; 
+			var tr = '<div> </div>';
+			$.each(commentList , function(i){ 
+				if(commentList[i].boardComment == null){
+					commentList[i].boardComment = '';
+				}
+				if(commentList[i].fileName == null){
+					commentList[i].fileName = '';
+				}
+				if(commentList[i].filePath == null){
+					commentList[i].filePath = '';
+				}
+				tr += '<div> 닉네임 :' + commentList[i].nickName + '</div><div>' + commentList[i].dateTime + '</div><div>' + commentList[i].boardComment + '</div><div><img src="'+commentList[i].filePath+"" +"/"+ ""+commentList[i].fileName+'"></div>'
+				; }); 
+			$(".commentArea").append(tr); 
+		},
+		error: function(){
+			console.log('error');
+		}
+	})
+}
+document.addEventListener("DOMContentLoaded", function(){
+	getFreeBoardData();
+});
 
-function uploadFile() {
+
+const uploadFile = () =>{
 	const nickName = document.getElementById("nickName").value;
 	const comment = document.getElementById("comment").value;
 	if(!nickName){
@@ -117,61 +165,36 @@ function uploadFile() {
 	    cache: false,
 	    success: function () {
 	     	console.log('success')
-	      $.ajax({
-	    	  url:"/freeBoard",
-	    	  type:"POST",
-	    	  data: {"nickName":nickName,"comment":comment},
-	    	  success:function(){
-	    		  console.log("글자 데이터 성공")
-	    	  }
-	      })
+	     setTimeout(() => {
+	    	 $.ajax({
+		    	  url:"/freeBoard",
+		    	  type:"POST",
+		    	  data: {"nickName":nickName,"comment":comment},
+		    	  success:function(){
+		    		  console.log("글자 데이터 성공")
+		    	  },
+		    	  error:function(){
+		    		  alert("잠시후에 다시 시도해주세요.")
+		    	  }
+		      })
+		}, 300)
+	     
 	      
 	    },
 	    error: function () {
-	      console.log('error')
+	     alert("댓글작성에 실패했습니다. 다시 시도해주세요.");
 	    }
-	  });
-	}
-/* const writeComment = () => {
-	const nickName = document.getElementById("nickName").value;
-	const comment = document.getElementById("comment").value;
-	const file = $("input[name='file']");
-	console.log(file[0].files);
-	if(!nickName){
-		alert("닉네임을 입력해주세요.")
-		return 
-	}
 
-	if(!comment){
-		alert("댓글을 입력해주세요.")
-		return 
-	}
-		
-		 const form = new FormData();
-			 form.append("nickName",nickName);
-			 form.append("comment",comment);
-			 form.append("file",file);
-	         jQuery.ajax({
-	             url : "/writeFreeBoard"
-	           , type : "POST"
-	           , processData : false
-	           , contentType : false
-	           , enctype: 'multipart/form-data'
-	           , data : form
-	           , success:function(response) {
-	               alert("성공하였습니다.");
-	               console.log(response);
-	           }
-	           ,error: function (jqXHR) 
-	           { 
-	               alert(jqXHR.responseText); 
-	           }
-	       });
-     
-	         
-	         
 	
-} */
+	  });
+		$('.commentArea').html('')
+		setTimeout(() => {
+			getFreeBoardData();
+		}, 400)
+	  	
+	
+	  
+	}
 
 
 

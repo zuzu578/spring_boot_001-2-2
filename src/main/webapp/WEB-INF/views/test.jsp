@@ -212,7 +212,7 @@
 					<tr v-for="(dataList, idx) in newSearchList" :key="idx">
 						<td>{{dataList.SONG_GENRE}}</td>
 						<td>{{dataList.SONG_NAME}}</td>
-						<td>{{dataList.SONG_TYPE}}</td>
+						<td>{{dataList.SONG_TYPE}}</td> 
 						<td v-if="dataList.FILE_NAME != null">
 							<button type="button"
 								@click="fileDown(dataList.FILE_NAME,dataList.FILE_PATH)"
@@ -301,9 +301,9 @@
 
 
 						</td>
-						<!--  
-						<td>{{dataList.FILE_PATH}}{{dataList.FILE_NAME}}{{dataList.SAMPLE_SONG}}</td> 
-						-->
+						 
+						
+						
 
 
 					</tr>

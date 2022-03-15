@@ -66,11 +66,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //@RestController
 
 public class Controller {
-
-	private static String FILE_SERVER_PATH = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp";
-
-	private static String FileSavePath = "/Users/helloworld/git/spring_boot_001-2-5/src/main/webapp/resources/assets/freeBoardImage";
-
+	//private static String FILE_SERVER_PATH = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp";
+	 
+	//private static String FileSavePath = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp/resources/assets";
+	private static String BoardFilePath = "/Users/helloworld/git/spring_boot_001-2-5/src/main/webapp/resources/assets/freeBoardImage";
+	//private static String FileSavePath = "/Users/helloworld/git/spring_boot_001-2-5/src/main/webapp/resources/assets";
+		private static String FILE_SERVER_PATH = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp";
+	
+		private static String FileSavePath = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp/resources/assets";
 	@Autowired
 	private Dao dao;
 
@@ -552,20 +555,20 @@ public class Controller {
 		return "searchSongWiki";
 	}
 	
-	// TODO : file 첨부안할시 로직 구현 
+	
 	@RequestMapping(value = "/uploadFreeBoardFile", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<?> uploadFile(@RequestParam("uploadfile") MultipartFile uploadfile) {
 	  HashMap<String , Object> paramMap = new HashMap<String, Object>();
 	  try {
 	    String fileName = uploadfile.getOriginalFilename();
-	    String filePath = Paths.get(FileSavePath, fileName).toString();
+	    String filePath = Paths.get(BoardFilePath, fileName).toString();
 	   
 	    if(fileName.equals("") || fileName == null) {
 	    	fileName = "";
 	    	filePath = "";
 	    	paramMap.put("fileName", fileName);
-		    paramMap.put("filePath", FileSavePath);
+		    paramMap.put("filePath", filePath);
 		    
 		    dao.uploadFreeBoardFile(paramMap);
 	    }else {
@@ -574,7 +577,8 @@ public class Controller {
 	    	stream.write(uploadfile.getBytes());
 	        stream.close();
 	        paramMap.put("fileName", fileName);
-	        paramMap.put("filePath", FileSavePath);
+	        //BoardFilePath ==> resources/assets/freeBoardImage subString 
+	        paramMap.put("filePath", "resources/assets/freeBoardImage");
 	    	dao.uploadFreeBoardFile(paramMap);
 	    	
 	    }
@@ -608,6 +612,7 @@ public class Controller {
 	@GetMapping("/freeBoard")
 	public ResponseEntity<?> getFreeBoard(HttpServletRequest req){
 		HashMap<String,Object> paramMap = new HashMap<String,Object>();
+		HashMap<String,Object> resultMap = new HashMap<String , Object>();
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 		String nowPage = req.getParameter("nowPage");
@@ -622,7 +627,11 @@ public class Controller {
 			paramMap.put("start", pagingResult.getStart());
 			paramMap.put("end", pagingResult.getEnd());
 			List<FreeBoard> boardList = dao.getFreeBoard(paramMap);
-			return new ResponseEntity<>(boardList,headers, HttpStatus.OK);
+			resultMap.put("boardList", boardList);
+			resultMap.put("nowPage", nowPage);
+			resultMap.put("end", pagingResult.getEnd());
+			
+			return new ResponseEntity<>(resultMap,headers, HttpStatus.OK);
 			
 		}catch(Exception e) {
 		    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

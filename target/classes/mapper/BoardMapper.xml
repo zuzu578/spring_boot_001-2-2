@@ -242,16 +242,16 @@
 	
 	<select id="getFreeBoard" resultType="com.example.demo.freeBoardDto.FreeBoard">
 	SELECT * FROM (
-			SELECT row_number() over(ORDER BY t1.dateTime ASC) num ,
+			SELECT row_number() over(ORDER BY t1.dateTime desc) num ,
 			t1.idx AS idx,
 			t1.nickname as nickName,
-			t1.boardcomment as comment,
+			t1.boardcomment as boardComment,
 			t1.datetime as dateTime,
 			t2.filename AS fileName,
 			t2.filepath AS filePath
 			FROM taiko_board t1 LEFT OUTER JOIN taiko_board_file t2 ON t1.idx = t2.idx
 		)
-		where num between  #{start} AND #{end}
+		where num between  ${start} AND ${end}
 		
 	</select>
 
@@ -259,7 +259,7 @@
 	
 	
 	  SELECT count(*)FROM (
-			SELECT row_number() over(ORDER BY t1.dateTime ASC) num ,
+			SELECT row_number() over(ORDER BY t1.dateTime desc) num ,
 			t1.idx AS idx,
 			t1.nickname as nickName,
 			t1.boardcomment as boardComment,

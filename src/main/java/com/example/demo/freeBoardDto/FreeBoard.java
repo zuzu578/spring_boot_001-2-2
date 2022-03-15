@@ -2,7 +2,7 @@ package com.example.demo.freeBoardDto;
 
 public class FreeBoard {
 	private String nickName;
-	private String comment;
+	private String boardComment;
 	private String dateTime;
 	private int idx;
 	private String fileName;
@@ -13,11 +13,11 @@ public class FreeBoard {
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
-	public String getComment() {
-		return comment;
+	public String getBoardComment() {
+		return boardComment;
 	}
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setBoardComment(String boardComment) {
+		this.boardComment = boardComment;
 	}
 	public String getDateTime() {
 		return dateTime;
@@ -45,11 +45,12 @@ public class FreeBoard {
 	}
 	@Override
 	public String toString() {
-		return "FreeBoard [nickName=" + nickName + ", comment=" + comment + ", dateTime=" + dateTime + ", idx=" + idx
-				+ ", fileName=" + fileName + ", filePath=" + filePath + ", getNickName()=" + getNickName()
-				+ ", getComment()=" + getComment() + ", getDateTime()=" + getDateTime() + ", getIdx()=" + getIdx()
-				+ ", getFileName()=" + getFileName() + ", getFilePath()=" + getFilePath() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+		return "FreeBoard [nickName=" + nickName + ", boardComment=" + boardComment + ", dateTime=" + dateTime
+				+ ", idx=" + idx + ", fileName=" + fileName + ", filePath=" + filePath + ", getNickName()="
+				+ getNickName() + ", getBoardComment()=" + getBoardComment() + ", getDateTime()=" + getDateTime()
+				+ ", getIdx()=" + getIdx() + ", getFileName()=" + getFileName() + ", getFilePath()=" + getFilePath()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
 	}
 	
 	

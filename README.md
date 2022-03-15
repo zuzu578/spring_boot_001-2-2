@@ -35,3 +35,7 @@
 2) list 불러오는 api 생성 (2022-3-14)
 <img width="1131" alt="스크린샷 2022-03-14 오후 10 28 30" src="https://user-images.githubusercontent.com/69393030/158181581-f154ce6b-65fd-4885-90d5-4bac3f0843f5.png">
 
+# 댓글작성
+익명으로 댓글을 작성하여 커뮤니케이션을 할수있다.
+사진 등을 첨부할수있다.
+<img width="1131" alt="스크린샷 2022-03-15 오후 7 51 08" src="https://user-images.githubusercontent.com/69393030/158362085-93558c56-c4fd-4c1b-b910-ce77bee26f84.png">

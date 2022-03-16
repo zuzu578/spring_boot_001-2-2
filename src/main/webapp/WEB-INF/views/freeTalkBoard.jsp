@@ -84,8 +84,11 @@ body {
   <div class="input-group mb-3">
 		  <input type="text" id="nickName" value="" class="form-control" placeholder="닉네임" aria-label="Username">
 </div>
+<div class="input-group mb-3">
+		  <input type="password" id="password" value="" class="form-control" placeholder="비밀번호" aria-label="Username">
+</div>
 
-  <input id="inputGroupFile04"class="form-control"  type="file" name="uploadfile" accept="*" />
+  <input id="inputGroupFile04"class="form-control" value="" type="file" name="uploadfile" accept="*" />
  <div class="input-group">
 		  <span class="input-group-text">댓글을 입력해보세요!</span>
 		  <textarea class="form-control" id="comment" value="" aria-label="With textarea"></textarea>
@@ -110,6 +113,8 @@ body {
 </body>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
 <script>
 const getFreeBoardData = () => {
 	$.ajax({
@@ -129,7 +134,7 @@ const getFreeBoardData = () => {
 				if(commentList[i].filePath == null){
 					commentList[i].filePath = '';
 				}
-				tr += '<div> 닉네임 :' + commentList[i].nickName + '</div><div>' + commentList[i].dateTime + '</div><div>' + commentList[i].boardComment + '</div><div><img src="'+commentList[i].filePath+"" +"/"+ ""+commentList[i].fileName+'"></div>'
+				tr += '<div> 닉네임 :' + commentList[i].nickName + '<button onclick=deleteFnc('+commentList[i].idx+') type="button" class="btn btn-primary">삭제</button></div><div>' + commentList[i].dateTime + '</div><div>' + commentList[i].boardComment + '</div><div><img src="'+commentList[i].filePath+"" +"/"+ ""+commentList[i].fileName+'"></div>'
 				; }); 
 			$(".commentArea").append(tr); 
 		},
@@ -146,6 +151,7 @@ document.addEventListener("DOMContentLoaded", function(){
 const uploadFile = () =>{
 	const nickName = document.getElementById("nickName").value;
 	const comment = document.getElementById("comment").value;
+	const password = document.getElementById("password").value;
 	if(!nickName){
 		alert("닉네임을 입력해주세요.")
 		return 
@@ -155,47 +161,75 @@ const uploadFile = () =>{
 		alert("댓글을 입력해주세요.")
 		return 
 	}
-	  $.ajax({
-	    url: "/uploadFreeBoardFile",
-	    type: "POST",
-	    data: new FormData($("#upload-file-form")[0]),
-	    enctype: 'multipart/form-data',
-	    processData: false,
-	    contentType: false,
-	    cache: false,
-	    success: function () {
-	     	console.log('success')
-	     setTimeout(() => {
-	    	 $.ajax({
-		    	  url:"/freeBoard",
-		    	  type:"POST",
-		    	  data: {"nickName":nickName,"comment":comment},
-		    	  success:function(){
-		    		  console.log("글자 데이터 성공")
-		    	  },
-		    	  error:function(){
-		    		  alert("잠시후에 다시 시도해주세요.")
-		    	  }
-		      })
-		}, 300)
-	     
-	      
-	    },
-	    error: function () {
-	     alert("댓글작성에 실패했습니다. 다시 시도해주세요.");
-	    }
-
 	
-	  });
-		$('.commentArea').html('')
+	if(!password){
+		alert("비밀번호를 입력해주세요.");
+		return 
+	}
+	// 댓글작성 
+	 $.ajax({
+   	  url:"/freeBoard",
+   	  type:"POST",
+   	  data: {"nickName":nickName,"comment":comment,"password":password},
+   	  success:function(){
+   		  console.log("글자 데이터 성공")
+   	  },
+   	  error:function(){
+   		  alert("잠시후에 다시 시도해주세요.")
+   	  }
+     })
+     // 이미지첨부 
+    	  $.ajax({
+    		    url: "/uploadFreeBoardFile",
+    		    type: "POST",
+    		    data: new FormData($("#upload-file-form")[0]),
+    		    enctype: 'multipart/form-data',
+    		    processData: false,
+    		    contentType: false,
+    		    cache: false,
+    		    success: function () {
+    		     	console.log('success')
+    		    },
+    		    error: function () {
+    		     alert("댓글작성에 실패했습니다. 다시 시도해주세요.");
+    		    }
+    		  });
+	
+		
 		setTimeout(() => {
 			getFreeBoardData();
-		}, 400)
+		}, 20)
+		
+		
+		$('.commentArea').html('')
+		$('#nickName').val('')
+		$('#comment').val('')
+		$('#password').val('')
+		$('#inputGroupFile04').val('')
+		
 	  	
 	
 	  
 	}
 
+const deleteFnc = (idx) => {
+	const password = prompt('비밀번호를 입력해주세요.');
+	 $.ajax({
+	   	  url:"/deleteFreeBoard",
+	   	  type:"DELETE",
+	   	  data: {"idx":idx,"password":password},
+	   	  success:function(){
+	   		  alert('삭제되었습니다.')
+	   	  },
+	   	  error:function(){
+	   		  alert("비밀번호가 일치하지 않습니다.")
+	   	  }
+	     })
+	     $('.commentArea').html('')
+	     setTimeout(() => {
+			getFreeBoardData();
+		}, 20)
+}
 
 
 </script>

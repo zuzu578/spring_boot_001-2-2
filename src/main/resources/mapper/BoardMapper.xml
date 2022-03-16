@@ -190,14 +190,14 @@
 	<insert id="insertFreeBoardFile" parameterType="hashMap">
 		INSERT INTO 
 		TAIKO_BOARD_FILE (idx,fileName,filePath)
-		VALUES(taiko_free_board_seq.nextval ,'${fileName}','${filePath}')
+		VALUES(taiko_free_board_file_sequence.nextval ,'${fileName}','${filePath}')
 	</insert>
 	
 	
 	<insert id="writeFreeBoard" parameterType="hashMap">
 		INSERT INTO 
-		taiko_board (idx , nickname , boardCOMMENT)
-		VALUES(taiko_free_board_seq.currval ,'${nickName}' ,'${comment}')
+		taiko_board (idx , nickname , boardCOMMENT ,password)
+		VALUES(taiko_free_board_sequence.nextval ,'${nickName}' ,'${comment}','${password}')
 	</insert> 
 	
 	<insert id="insertImageInfo" parameterType="hashmap">
@@ -269,4 +269,15 @@
 			FROM taiko_board t1 LEFT OUTER JOIN taiko_board_file t2 ON t1.idx = t2.idx
 		)
 	</select>
+	
+	<select id="deleteTargetPassoword" resultType="String" parameterType="String">
+	SELECT password from taiko_board where idx = '${idx}'
+	</select>
+	
+	<delete id="deleteFreeBoard">
+	DELETE FROM taiko_board where idx = '${idx}'
+	</delete>
+	<delete id="deleteFreeBoardImage">
+	DELETE FROM taiko_board_file where idx = '${idx}'
+	</delete>
 </mapper>

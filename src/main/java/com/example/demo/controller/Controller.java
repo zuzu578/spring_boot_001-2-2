@@ -7,10 +7,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,14 +70,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //@RestController
 
 public class Controller {
-	//private static String FILE_SERVER_PATH = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp";
-	 
-	//private static String FileSavePath = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp/resources/assets";
 	private static String BoardFilePath = "/Users/helloworld/git/spring_boot_001-2-5/src/main/webapp/resources/assets/freeBoardImage";
-	//private static String FileSavePath = "/Users/helloworld/git/spring_boot_001-2-5/src/main/webapp/resources/assets";
-		private static String FILE_SERVER_PATH = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp";
-	
-		private static String FileSavePath = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp/resources/assets";
+	private static String FILE_SERVER_PATH = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp";
+	private static String FileSavePath = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp/resources/assets";
 	@Autowired
 	private Dao dao;
 
@@ -591,13 +590,46 @@ public class Controller {
 	  
 	  return new ResponseEntity<>(HttpStatus.OK);
 	} 
-
+	@DeleteMapping("/deleteFreeBoard")
+	public ResponseEntity<?> deleteFreeBoard(@RequestParam("idx") String idx , @RequestParam("password")String password){
+		try {
+			String deleteTargetPassword = dao.deleteTargetPassoword(idx);
+			
+			String salt = password;
+			String hex = null;
+			MessageDigest msg = MessageDigest.getInstance("SHA-512");
+			msg.update(salt.getBytes()); 
+			// 암호화 된 비밀번호 
+			hex = String.format("%128x", new BigInteger(1, msg.digest()));
+			
+			if(deleteTargetPassword.equals(hex)) {
+				dao.deleteFreeBoard(idx);
+				dao.deleteFreeBoardImage(idx);
+			}else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+			
+			return new ResponseEntity<>(HttpStatus.OK);
+			
+		}catch(Exception e) {
+			 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@PostMapping("/freeBoard")
-	public ResponseEntity<?> writeFreeBoard(@RequestParam("nickName") String nickName,@RequestParam("comment") String comment) {
+	public ResponseEntity<?> writeFreeBoard(@RequestParam("nickName") String nickName,@RequestParam("comment") String comment,@RequestParam("password") String password) throws NoSuchAlgorithmException {
 		HashMap<String,Object> paramMap = new HashMap<String , Object>();
+		String salt = password;
+		String hex = null;
+		MessageDigest msg = MessageDigest.getInstance("SHA-512");
+		msg.update(salt.getBytes()); 
+		// 암호화 된 비밀번호 
+		hex = String.format("%128x", new BigInteger(1, msg.digest()));
+	    
 		try {
 			paramMap.put("comment", comment);
 			paramMap.put("nickName", nickName);
+			paramMap.put("password", hex);
 			
 			dao.writeFreeBoard(paramMap);
 			

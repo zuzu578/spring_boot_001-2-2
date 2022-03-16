@@ -137,5 +137,19 @@ public class Dao {
 	public int freeBoardCount() {
 		return sqlSession.selectOne(NAMESPACE+"getFreeBoardCount");
 	}
+	// 삭제할 게시물의 비밀번호를 idx를 이용하여 조회 
+	public String deleteTargetPassoword(String idx) {
+		return sqlSession.selectOne(NAMESPACE+"deleteTargetPassoword",idx);
+	}
+	// idx 를 기준으로 게시물 삭제 
+	public void deleteFreeBoard(String idx) {
+		sqlSession.delete(NAMESPACE+"deleteFreeBoard",idx);
+		
+	}
+	// idx 를 기준으로 이미지 관련 데이터 삭제 
+	public void deleteFreeBoardImage(String idx) {
+		sqlSession.delete(NAMESPACE+"deleteFreeBoardImage",idx);
+		
+	}
 
 }

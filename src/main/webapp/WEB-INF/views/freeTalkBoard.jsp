@@ -48,9 +48,13 @@ body {
 	background-color:white;
 	
 }
+.boardCommentBox{
+margin-top:50px;
+}
 </style>
 </head>
 <body>
+
 	<nav class="nav_items">
 		<div class="nav_items">
 			<p class="para">
@@ -134,7 +138,21 @@ const getFreeBoardData = () => {
 				if(commentList[i].filePath == null){
 					commentList[i].filePath = '';
 				}
-				tr += '<div> 닉네임 :' + commentList[i].nickName + '<button onclick=deleteFnc('+commentList[i].idx+') type="button" class="btn btn-primary">삭제</button></div><div>' + commentList[i].dateTime + '</div><div>' + commentList[i].boardComment + '</div><div><img src="'+commentList[i].filePath+"" +"/"+ ""+commentList[i].fileName+'"></div>'
+				// 파일 확장자 체크 
+				const fileChk = commentList[i].fileName.slice(commentList[i].fileName.indexOf(".") + 1).toLowerCase();
+				console.log(fileChk)
+				let tag = '';
+				if(fileChk =="jpeg" || fileChk =="jpg" || fileChk =="png" || fileChk =="gif" || fileChk =="bmp"){
+					console.log('이미지 파일')
+					tag = '<img src="'+commentList[i].filePath+"" +"/"+ ""+commentList[i].fileName+'">'
+				}
+				if(fileChk =="mp4"){
+					console.log('영상파일')
+					tag = '<video controls width="500"><source src="resources/assets/freeBoardImage/気焔万丈神楽　正攻法全良.mp4" type="video/mp4"> </video>'
+				}
+				
+				
+				tr += '<div class="boardCommentBox"><div> 닉네임 :' + commentList[i].nickName + '<button onclick=deleteFnc('+commentList[i].idx+') type="button" class="btn btn-primary">삭제</button></div><div>' + commentList[i].dateTime + '</div><div>' + commentList[i].boardComment + '</div><div>'+tag+'</div></div>'
 				; }); 
 			$(".commentArea").append(tr); 
 		},
@@ -198,7 +216,7 @@ const uploadFile = () =>{
 		
 		setTimeout(() => {
 			getFreeBoardData();
-		}, 20)
+		}, 30)
 		
 		
 		$('.commentArea').html('')

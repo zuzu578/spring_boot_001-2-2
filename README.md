@@ -36,6 +36,18 @@
 <img width="1131" alt="스크린샷 2022-03-14 오후 10 28 30" src="https://user-images.githubusercontent.com/69393030/158181581-f154ce6b-65fd-4885-90d5-4bac3f0843f5.png">
 
 # 댓글작성
+<img width="1127" alt="스크린샷 2022-03-16 오후 3 26 32" src="https://user-images.githubusercontent.com/69393030/158529560-a58aa201-0018-4bb1-8444-b200ee94b9f9.png">
+
 익명으로 댓글을 작성하여 커뮤니케이션을 할수있다.
 사진 등을 첨부할수있다.
-<img width="1131" alt="스크린샷 2022-03-15 오후 7 51 08" src="https://user-images.githubusercontent.com/69393030/158362085-93558c56-c4fd-4c1b-b910-ce77bee26f84.png">
+익명의 유저는 비밀번호를 입력하여 컨텐츠를 생성할수있다.
+이때 입력된 비밀번호는 암호화하여 데이터베이스에 저장된다.
+암호화 비밀번호 방식은 SHA-512 알고리즘 방식을 사용한다.
+<img width="707" alt="스크린샷 2022-03-16 오후 3 25 55" src="https://user-images.githubusercontent.com/69393030/158529459-f8b43023-ba7b-4f0f-919f-96e79ec74f30.png">
+
+
+# 자유게시판 댓글 삭제기능 
+작성한 익명유저의 비밀번호를 조회하여 데이터를 삭제한다.
+<img width="1131" alt="스크린샷 2022-03-16 오후 3 24 54" src="https://user-images.githubusercontent.com/69393030/158529304-df75bffa-6823-48bc-b98e-81b86bcd4d52.png">
+
+

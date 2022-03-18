@@ -12,6 +12,10 @@
 	crossorigin="anonymous">
 <title>Insert title here</title>
 <style>
+*{
+margin:0;
+padding:0;
+}
 .nav_items {
 	background-color: black;
 	color: white;
@@ -43,8 +47,6 @@ body {
 .commentArea{
 	border-radius:10px;
 	padding:10px;
-	
-	margin-top:200px;
 	background-color:white;
 	
 }
@@ -120,10 +122,28 @@ margin-top:50px;
 
 
 <script>
+let nowPage = 1;
+let isAbleToUpload = true;
+document.getElementById('inputGroupFile04').onchange = function () {
+	const fileTargetSize = document.getElementById("inputGroupFile04").files[0].size;
+	const maxSize = 100*1024*1024;
+	if(fileTargetSize > maxSize){
+		alert("100mb 이하의 파일만 업로드 가능합니다.");
+		isAbleToUpload = false;
+		console.log(isAbleToUpload);
+		return;
+	}
+};
+	
+
+
+
+
 const getFreeBoardData = () => {
 	$.ajax({
 		url:"/freeBoard",
 		type:"GET",
+		data:{"nowPage":nowPage},
 		success: function(data){
 			console.log(data);
 			var commentList = data.boardList; 
@@ -146,13 +166,14 @@ const getFreeBoardData = () => {
 					console.log('이미지 파일')
 					tag = '<img src="'+commentList[i].filePath+"" +"/"+ ""+commentList[i].fileName+'">'
 				}
-				if(fileChk =="mp4"){
+				if(fileChk.includes('mp4')){
 					console.log('영상파일')
-					tag = '<video controls width="500"><source src="resources/assets/freeBoardImage/気焔万丈神楽　正攻法全良.mp4" type="video/mp4"> </video>'
+					tag = '<video controls width="700"><source src="'+commentList[i].filePath+"" +"/"+ ""+commentList[i].fileName+'" type="video/mp4"> </video>'
 				}
 				
+				console.log(commentList[i].filePath , commentList[i].fileName)
 				
-				tr += '<div class="boardCommentBox"><div> 닉네임 :' + commentList[i].nickName + '<button onclick=deleteFnc('+commentList[i].idx+') type="button" class="btn btn-primary">삭제</button></div><div>' + commentList[i].dateTime + '</div><div>' + commentList[i].boardComment + '</div><div>'+tag+'</div></div>'
+				tr += '<div class="boardCommentBox"><div> 닉네임 :' + commentList[i].nickName + '<button onclick=deleteFnc('+commentList[i].idx+') type="button" class="btn btn-danger">X</button></div><div>' + commentList[i].dateTime + '</div><div>' + commentList[i].boardComment + '</div><div>'+tag+'</div></div>'
 				; }); 
 			$(".commentArea").append(tr); 
 		},
@@ -184,6 +205,10 @@ const uploadFile = () =>{
 		alert("비밀번호를 입력해주세요.");
 		return 
 	}
+	if(!isAbleToUpload){
+		alert("파일은 100 mb 이하로 첨부해주세요.");
+		return 
+	}
 	// 댓글작성 
 	 $.ajax({
    	  url:"/freeBoard",
@@ -191,6 +216,7 @@ const uploadFile = () =>{
    	  data: {"nickName":nickName,"comment":comment,"password":password},
    	  success:function(){
    		  console.log("글자 데이터 성공")
+   		getFreeBoardData();
    	  },
    	  error:function(){
    		  alert("잠시후에 다시 시도해주세요.")
@@ -207,17 +233,16 @@ const uploadFile = () =>{
     		    cache: false,
     		    success: function () {
     		     	console.log('success')
+    		     	setTimeout(() => {
+    					getFreeBoardData();
+    				}, 200) 
+    				
     		    },
     		    error: function () {
     		     alert("댓글작성에 실패했습니다. 다시 시도해주세요.");
     		    }
     		  });
-	
-		
-		setTimeout(() => {
-			getFreeBoardData();
-		}, 30)
-		
+
 		
 		$('.commentArea').html('')
 		$('#nickName').val('')
@@ -241,6 +266,7 @@ const deleteFnc = (idx) => {
 	   	  },
 	   	  error:function(){
 	   		  alert("비밀번호가 일치하지 않습니다.")
+	   		  return
 	   	  }
 	     })
 	     $('.commentArea').html('')
@@ -248,6 +274,19 @@ const deleteFnc = (idx) => {
 			getFreeBoardData();
 		}, 20)
 }
+
+window.onscroll = function(ev) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        
+    	nowPage++;
+    	getFreeBoardData()
+        //alert(nowPage);
+    	console.log("event detected!",nowPage);
+    }
+};
+
+
+
 
 
 </script>

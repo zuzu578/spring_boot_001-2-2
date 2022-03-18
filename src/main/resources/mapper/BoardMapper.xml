@@ -190,14 +190,14 @@
 	<insert id="insertFreeBoardFile" parameterType="hashMap">
 		INSERT INTO 
 		TAIKO_BOARD_FILE (idx,fileName,filePath)
-		VALUES(taiko_free_board_file_sequence.nextval ,'${fileName}','${filePath}')
+		VALUES(board_file_seq.nextval ,'${fileName}','${filePath}')
 	</insert>
 	
 	
 	<insert id="writeFreeBoard" parameterType="hashMap">
 		INSERT INTO 
 		taiko_board (idx , nickname , boardCOMMENT ,password)
-		VALUES(taiko_free_board_sequence.nextval ,'${nickName}' ,'${comment}','${password}')
+		VALUES(taiko_board_free_seq.nextval ,'${nickName}' ,'${comment}','${password}')
 	</insert> 
 	
 	<insert id="insertImageInfo" parameterType="hashmap">

@@ -648,7 +648,7 @@ public class Controller {
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 		String nowPage = req.getParameter("nowPage");
-		String cntPerPage = "20";
+		String cntPerPage = "10";
 		if (nowPage == null) {
 			nowPage = "1";
 

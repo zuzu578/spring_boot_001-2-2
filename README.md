@@ -49,5 +49,7 @@
 # 자유게시판 댓글 삭제기능 
 작성한 익명유저의 비밀번호를 조회하여 데이터를 삭제한다.
 <img width="1131" alt="스크린샷 2022-03-16 오후 3 24 54" src="https://user-images.githubusercontent.com/69393030/158529304-df75bffa-6823-48bc-b98e-81b86bcd4d52.png">
-
+# 동영상 첨부 , 재생기능 
+사진뿐만아니라 영상컨텐츠도 올려서 볼수있도록한다.
+<img width="1127" alt="스크린샷 2022-03-16 오후 7 14 30" src="https://user-images.githubusercontent.com/69393030/158567534-bacddb0b-ca72-4b95-b2e2-8152a3719550.png">
 

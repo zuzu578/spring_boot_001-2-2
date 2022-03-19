@@ -55,5 +55,6 @@
 
 
 # 게시물에 댓글작성기능 
-<img width="914" alt="스크린샷 2022-03-18 오후 10 24 30" src="https://user-images.githubusercontent.com/69393030/159010795-7aea0858-8f5d-4e61-91c0-b683b91e5e0d.png">
+<img width="939" alt="스크린샷 2022-03-19 오후 9 28 41" src="https://user-images.githubusercontent.com/69393030/159121161-0424d0a6-fda7-415a-a388-515b8127b564.png">
+
 해당 영상이나 사진에 댓글을 달수있도록 한다.

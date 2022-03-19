@@ -53,3 +53,7 @@
 사진뿐만아니라 영상컨텐츠도 올려서 볼수있도록한다.
 <img width="1127" alt="스크린샷 2022-03-16 오후 7 14 30" src="https://user-images.githubusercontent.com/69393030/158567534-bacddb0b-ca72-4b95-b2e2-8152a3719550.png">
 
+
+# 게시물에 댓글작성기능 
+<img width="914" alt="스크린샷 2022-03-18 오후 10 24 30" src="https://user-images.githubusercontent.com/69393030/159010795-7aea0858-8f5d-4e61-91c0-b683b91e5e0d.png">
+해당 영상이나 사진에 댓글을 달수있도록 한다.

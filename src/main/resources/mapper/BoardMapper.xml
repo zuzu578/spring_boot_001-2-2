@@ -190,14 +190,14 @@
 	<insert id="insertFreeBoardFile" parameterType="hashMap">
 		INSERT INTO 
 		TAIKO_BOARD_FILE (idx,fileName,filePath)
-		VALUES(board_file_seq.nextval ,'${fileName}','${filePath}')
+		VALUES(replyBoard_file_seq.nextval ,'${fileName}','${filePath}')
 	</insert>
 	
 	
 	<insert id="writeFreeBoard" parameterType="hashMap">
 		INSERT INTO 
 		taiko_board (idx , nickname , boardCOMMENT ,password)
-		VALUES(taiko_board_free_seq.nextval ,'${nickName}' ,'${comment}','${password}')
+		VALUES(replyBoard_seq.nextval ,'${nickName}' ,'${comment}','${password}')
 	</insert> 
 	
 	<insert id="insertImageInfo" parameterType="hashmap">
@@ -240,8 +240,8 @@
 
 	</select>
 	
-	<select id="getFreeBoard" resultType="com.example.demo.freeBoardDto.FreeBoard">
-	SELECT * FROM (
+	<select id="getFreeBoard" resultType="com.example.demo.freeBoardDto.FreeBoard">	
+		SELECT * FROM (
 			SELECT row_number() over(ORDER BY t1.dateTime desc) num ,
 			t1.idx AS idx,
 			t1.nickname as nickName,
@@ -249,7 +249,9 @@
 			t1.datetime as dateTime,
 			t2.filename AS fileName,
 			t2.filepath AS filePath
-			FROM taiko_board t1 LEFT OUTER JOIN taiko_board_file t2 ON t1.idx = t2.idx
+			FROM taiko_board t1 
+			LEFT OUTER JOIN taiko_board_file t2 ON t1.idx = t2.idx
+			
 		)
 		where num between  ${start} AND ${end}
 		
@@ -280,4 +282,18 @@
 	<delete id="deleteFreeBoardImage">
 	DELETE FROM taiko_board_file where idx = '${idx}'
 	</delete>
+	<select id="getReplyCommentList" resultType="com.example.demo.freeBoardDto.FreeBoardReplyCommentDto" parameterType="String">
+		SELECT 
+		idx as idx,
+		boardidx as boardIdx,
+		nickname as replyCommentNickName,
+		replycomment as replyComment,
+		dateTime as dateTime 
+		FROM TAIKO_BOARD_REPLY  WHERE BOARDIDX  = '${commentIdx}'
+	</select>
+	<insert id="writeReplies" parameterType="hashMap">
+	INSERT INTO
+		taiko_board_reply(idx,BOARDIDX,NICKNAME,REPLYCOMMENT,PASSWORD)
+		VALUES(taiko_board_reply_comment_seq.nextval,'${idx}','${nickName}','${contents}','${password}')
+	</insert>
 </mapper>

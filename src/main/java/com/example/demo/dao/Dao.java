@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.controller.PagingDto;
 import com.example.demo.freeBoardDto.FreeBoard;
+import com.example.demo.freeBoardDto.FreeBoardReplyCommentDto;
 import com.example.demo.wikidto.TaikoWikiDto;
 
 @Repository
@@ -149,6 +150,16 @@ public class Dao {
 	// idx 를 기준으로 이미지 관련 데이터 삭제 
 	public void deleteFreeBoardImage(String idx) {
 		sqlSession.delete(NAMESPACE+"deleteFreeBoardImage",idx);
+		
+	}
+	// 상위 부모 idx 게시물에 대한 하위 idx child 댓글 가져오기 
+	public List<FreeBoardReplyCommentDto> getReplyCommentList(String commentIdx) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE+"getReplyCommentList",commentIdx);
+	}
+	// 댓글작성 
+	public void writeReplies(HashMap<String, Object> paramMap) {
+		sqlSession.insert(NAMESPACE+"writeReplies",paramMap);
 		
 	}
 

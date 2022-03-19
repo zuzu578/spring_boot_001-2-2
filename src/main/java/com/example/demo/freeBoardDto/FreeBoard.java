@@ -7,6 +7,11 @@ public class FreeBoard {
 	private int idx;
 	private String fileName;
 	private String filePath;
+	private String commentNickName;
+	private String replyComment;
+	private String replyCommentDateTime;
+	private String boardIdx;
+	private String commentIdx;
 	public String getNickName() {
 		return nickName;
 	}
@@ -43,14 +48,48 @@ public class FreeBoard {
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
+	public String getCommentNickName() {
+		return commentNickName;
+	}
+	public void setCommentNickName(String commentNickName) {
+		this.commentNickName = commentNickName;
+	}
+	public String getReplyComment() {
+		return replyComment;
+	}
+	public void setReplyComment(String replyComment) {
+		this.replyComment = replyComment;
+	}
+	public String getReplyCommentDateTime() {
+		return replyCommentDateTime;
+	}
+	public void setReplyCommentDateTime(String replyCommentDateTime) {
+		this.replyCommentDateTime = replyCommentDateTime;
+	}
+	public String getBoardIdx() {
+		return boardIdx;
+	}
+	public void setBoardIdx(String boardIdx) {
+		this.boardIdx = boardIdx;
+	}
+	public String getCommentIdx() {
+		return commentIdx;
+	}
+	public void setCommentIdx(String commentIdx) {
+		this.commentIdx = commentIdx;
+	}
 	@Override
 	public String toString() {
 		return "FreeBoard [nickName=" + nickName + ", boardComment=" + boardComment + ", dateTime=" + dateTime
-				+ ", idx=" + idx + ", fileName=" + fileName + ", filePath=" + filePath + ", getNickName()="
-				+ getNickName() + ", getBoardComment()=" + getBoardComment() + ", getDateTime()=" + getDateTime()
-				+ ", getIdx()=" + getIdx() + ", getFileName()=" + getFileName() + ", getFilePath()=" + getFilePath()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+				+ ", idx=" + idx + ", fileName=" + fileName + ", filePath=" + filePath + ", commentNickName="
+				+ commentNickName + ", replyComment=" + replyComment + ", replyCommentDateTime=" + replyCommentDateTime
+				+ ", boardIdx=" + boardIdx + ", commentIdx=" + commentIdx + ", getNickName()=" + getNickName()
+				+ ", getBoardComment()=" + getBoardComment() + ", getDateTime()=" + getDateTime() + ", getIdx()="
+				+ getIdx() + ", getFileName()=" + getFileName() + ", getFilePath()=" + getFilePath()
+				+ ", getCommentNickName()=" + getCommentNickName() + ", getReplyComment()=" + getReplyComment()
+				+ ", getReplyCommentDateTime()=" + getReplyCommentDateTime() + ", getBoardIdx()=" + getBoardIdx()
+				+ ", getCommentIdx()=" + getCommentIdx() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
 	
 	

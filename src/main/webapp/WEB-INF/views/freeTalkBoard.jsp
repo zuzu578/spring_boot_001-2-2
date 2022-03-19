@@ -12,9 +12,12 @@
 	crossorigin="anonymous">
 <title>Insert title here</title>
 <style>
+
 *{
 margin:0;
 padding:0;
+background-color:black;
+color:white;
 }
 .nav_items {
 	background-color: black;
@@ -29,10 +32,8 @@ padding:0;
 }
 
 body {
-	background-image:
-		url(https://switch.taiko-ch.net/images/special/millionCamp/img_mv.jpg);
-	background-repeat: no-repeat;
-	background-size: 100%;
+	
+	background-color:black;
 }
 
 .search_bar {
@@ -47,12 +48,44 @@ body {
 .commentArea{
 	border-radius:10px;
 	padding:10px;
-	background-color:white;
+	background-color:black;
+	height:auto;
 	
 }
 .boardCommentBox{
 margin-top:50px;
 }
+.feeling_div {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+} 
+.button-container {
+  margin-left: 20px;
+}
+.feeling_a {
+  background-color: #fff;
+  border: 2px solid #2199e8;
+  padding: 10px 20px;
+  border-radius: 2px;
+  color: #2199e8;
+}     
+.active {
+  background-color: #2199e8;
+  color: #fff;
+}
+.replyCommentElement{
+	border:1px solid red;
+}
+.commentsTemplate{
+margin-top:20px;
+}
+.replyButton{
+text-align:right;
+}
+.banner_images{
+text-align:center;
+margin-bottom:100px}
 </style>
 </head>
 <body>
@@ -84,7 +117,12 @@ margin-top:50px;
 
 	</nav>
 	<div class="search_bar">
-	 
+	 <div class="banner_images">
+			<div class="items">
+				<img src="https://taiko-ch.net/images/common/bg_header_chara.png">
+			</div>
+		
+		</div>
 			
 <form id="upload-file-form">
   <div class="input-group mb-3">
@@ -106,11 +144,11 @@ margin-top:50px;
 
 
 
-
 <div class="commentArea">
 
+</div> 
 
-</div>
+
 		
 </div>
 
@@ -134,10 +172,6 @@ document.getElementById('inputGroupFile04').onchange = function () {
 		return;
 	}
 };
-	
-
-
-
 
 const getFreeBoardData = () => {
 	$.ajax({
@@ -148,7 +182,23 @@ const getFreeBoardData = () => {
 			console.log(data);
 			var commentList = data.boardList; 
 			var tr = '<div> </div>';
+		
 			$.each(commentList , function(i){ 
+				const replyCommentsList = (callback) =>{
+					$.ajax({
+					       type: "post",
+				           url: "/getFreeBoardReplyComments",
+				           data:{idx:commentList[i].idx} ,
+				           //async :false,
+				           success: function(data){
+				              callback(data);
+				           },
+				           error: function(){
+				   			console.log('error');
+				   		}
+				     });
+					
+				}
 				if(commentList[i].boardComment == null){
 					commentList[i].boardComment = '';
 				}
@@ -158,10 +208,15 @@ const getFreeBoardData = () => {
 				if(commentList[i].filePath == null){
 					commentList[i].filePath = '';
 				}
+				if(commentList[i].commentNickName == null){
+					commentList[i].commentNickName = '';
+				}
+				
 				// 파일 확장자 체크 
 				const fileChk = commentList[i].fileName.slice(commentList[i].fileName.indexOf(".") + 1).toLowerCase();
 				console.log(fileChk)
 				let tag = '';
+				//let replyComment = '<div class="replyComment"><div class="replyCommentElement">'+commentDepth+'<small>'+replies+'</small>'+commentSeperator+'<small>'+commentList[i].replyComment+''+commentList[i].replyCommentDateTime +'</div></small></div>'
 				if(fileChk =="jpeg" || fileChk =="jpg" || fileChk =="png" || fileChk =="gif" || fileChk =="bmp"){
 					console.log('이미지 파일')
 					tag = '<img src="'+commentList[i].filePath+"" +"/"+ ""+commentList[i].fileName+'">'
@@ -172,10 +227,31 @@ const getFreeBoardData = () => {
 				}
 				
 				console.log(commentList[i].filePath , commentList[i].fileName)
-				
-				tr += '<div class="boardCommentBox"><div> 닉네임 :' + commentList[i].nickName + '<button onclick=deleteFnc('+commentList[i].idx+') type="button" class="btn btn-danger">X</button></div><div>' + commentList[i].dateTime + '</div><div>' + commentList[i].boardComment + '</div><div>'+tag+'</div></div>'
-				; }); 
-			$(".commentArea").append(tr); 
+				replyCommentsList(function(data){
+					
+					let found = '';
+					data.map((i,v)=>{
+						found = commentList.find(element => element.idx === i.boardIdx)
+						console.log('data====>',data)
+					})
+					let replies = '';
+					// 댓글
+					let commentsTemplate = '<div> <input type="text" class="form-control" placeholder="닉네임" id="replyNickName" aria-describedby="basic-addon1">  </div> <div><input type="password" class="form-control" placeholder="비밀번호" id="replyPassWord" aria-describedby="basic-addon1"><div> <textarea class="form-control" id="replyContents" value=""></textarea> </div><div class="replyButton"><button type="button" onclick="writeReplyCancel()" class="btn btn-danger">취소</button><button onclick=writeReplies('+commentList[i].idx+') type="button" class="btn btn-success">댓글작성</button></div> </div>';
+					if(found){
+						for(let i = 0 ; i < data.length ; i++){
+							console.log('댓글 내놔 ' , data[i])
+							replies += '<div> ㄴ ' + data[i].replyCommentNickName + ':'+data[i].replyComment +' '+data[i].dateTime +'</div>'
+						}
+					}
+						tr += '<div class="boardCommentBox"><div> 닉네임 :' + commentList[i].nickName + '<button onclick=deleteFnc('+commentList[i].idx+') type="button" class="btn btn-danger">X</button></div><div>' + commentList[i].dateTime + '</div><div>' + commentList[i].boardComment + '</div><div>'+tag+'</div><div>'+replies+' </div><div class="commentsTemplate">'+commentsTemplate+'  </div><button onclick="doWriteReply()" type="button" class="btn btn-light">댓글작성하기</button></div>'
+						$(".commentArea").append(tr); 
+						$(".commentsTemplate").hide();
+					
+				})
+				}); 
+			 
+		
+	
 		},
 		error: function(){
 			console.log('error');
@@ -186,6 +262,16 @@ document.addEventListener("DOMContentLoaded", function(){
 	getFreeBoardData();
 });
 
+const doWriteReply = () => {
+	//alert("test")
+	$(".commentsTemplate").show();
+	//$(".commentsTemplate").hide();
+	
+}
+
+const writeReplyCancel = () => {
+	$(".commentsTemplate").hide();
+}
 
 const uploadFile = () =>{
 	const nickName = document.getElementById("nickName").value;
@@ -216,13 +302,12 @@ const uploadFile = () =>{
    	  data: {"nickName":nickName,"comment":comment,"password":password},
    	  success:function(){
    		  console.log("글자 데이터 성공")
-   		getFreeBoardData();
    	  },
    	  error:function(){
    		  alert("잠시후에 다시 시도해주세요.")
    	  }
      })
-     // 이미지첨부 
+     // 이미지첨부 / 영상첨부 
     	  $.ajax({
     		    url: "/uploadFreeBoardFile",
     		    type: "POST",
@@ -233,10 +318,6 @@ const uploadFile = () =>{
     		    cache: false,
     		    success: function () {
     		     	console.log('success')
-    		     	setTimeout(() => {
-    					getFreeBoardData();
-    				}, 200) 
-    				
     		    },
     		    error: function () {
     		     alert("댓글작성에 실패했습니다. 다시 시도해주세요.");
@@ -249,10 +330,10 @@ const uploadFile = () =>{
 		$('#comment').val('')
 		$('#password').val('')
 		$('#inputGroupFile04').val('')
+		setTimeout(() => {
+			getFreeBoardData();
+		}, 3000)  
 		
-	  	
-	
-	  
 	}
 
 const deleteFnc = (idx) => {
@@ -263,19 +344,57 @@ const deleteFnc = (idx) => {
 	   	  data: {"idx":idx,"password":password},
 	   	  success:function(){
 	   		  alert('삭제되었습니다.')
+	   		  window.location.reload()
 	   	  },
 	   	  error:function(){
 	   		  alert("비밀번호가 일치하지 않습니다.")
+	   		  window.location.reload()
 	   		  return
 	   	  }
 	     })
-	     $('.commentArea').html('')
-	     setTimeout(() => {
+	     //$('.commentArea').html('')
+	    /*  setTimeout(() => {
 			getFreeBoardData();
-		}, 20)
+		}, 20)  */
+		
 }
 
-window.onscroll = function(ev) {
+const writeReplies = (idx) =>{
+	const commentUserNickName = document.getElementById("replyNickName").value;
+	const commentUserPassword = document.getElementById("replyPassWord").value;
+	const commentUserContents = document.getElementById("replyContents").value;
+	console.log(commentUserNickName,commentUserPassword,commentUserContents)
+	if(!commentUserNickName){
+		alert('닉네임을 입력해주세요.');
+		return 
+	}
+	if(!commentUserPassword){
+		alert('비밀번호를 입력해주세요.');
+		return 
+	}
+	if(!commentUserContents){
+		alert('댓글을 입력해주세요.');
+		return 
+	}
+	 
+	  $.ajax({
+		  url:"/writeReply",
+	   	  type:"POST",
+	   	  data: {"idx":idx,"nickName":commentUserNickName,"password":commentUserPassword,"contents":commentUserContents},
+	   	  success:function(){
+	   		$('.commentArea').html('')
+	   		getFreeBoardData()
+	   	  },
+	   	  error:function(){
+	   		  alert("댓글작성 실패")
+	   	  }
+     })
+	
+	
+	
+}
+
+/* window.onscroll = function(ev) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
         
     	nowPage++;
@@ -283,7 +402,7 @@ window.onscroll = function(ev) {
         //alert(nowPage);
     	console.log("event detected!",nowPage);
     }
-};
+}; */
 
 
 

@@ -43,6 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dao.Dao;
 import com.example.demo.freeBoardDto.FreeBoard;
+import com.example.demo.freeBoardDto.FreeBoardReplyCommentDto;
 import com.example.demo.wikidto.TaikoWikiDto;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -641,6 +642,19 @@ public class Controller {
 		}
 		
 	}
+	@PostMapping("/getFreeBoardReplyComments")
+	public ResponseEntity<?> getFreeBoardReplyComments(HttpServletRequest req){
+		String commentIdx = req.getParameter("idx");
+		
+		try {
+			List<FreeBoardReplyCommentDto> replyCommentList = dao.getReplyCommentList(commentIdx);
+			System.out.println("commentIdx======>"+commentIdx);
+			return new ResponseEntity<>(replyCommentList, HttpStatus.OK);
+		}catch(Exception e) {
+			 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
 	@GetMapping("/freeBoard")
 	public ResponseEntity<?> getFreeBoard(HttpServletRequest req){
 		HashMap<String,Object> paramMap = new HashMap<String,Object>();
@@ -669,6 +683,31 @@ public class Controller {
 		    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+	@PostMapping("/writeReply")
+	public ResponseEntity<?> writeReplies(@RequestParam("nickName") String nickName,@RequestParam("password") String password,@RequestParam("contents") String contents,@RequestParam("idx") String idx) throws NoSuchAlgorithmException{
+		HashMap<String, Object> paramMap = new HashMap<String,Object>();
+		String salt = password;
+		String hex = null;
+		MessageDigest msg = MessageDigest.getInstance("SHA-512");
+		msg.update(salt.getBytes()); 
+		// 암호화 된 비밀번호 
+		hex = String.format("%128x", new BigInteger(1, msg.digest()));
+		paramMap.put("nickName",nickName);
+		paramMap.put("password",hex);
+		paramMap.put("contents",contents);
+		paramMap.put("idx",idx);
+		
+		try {
+			
+			dao.writeReplies(paramMap);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}catch(Exception e){
+			 System.out.println(e);
+			 //return new ResponseEntity<>(HttpStatus.);
+			 return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+			
+		}
 	}
 
 }

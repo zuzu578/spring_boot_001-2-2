@@ -12,7 +12,6 @@
 	crossorigin="anonymous">
 <title>Insert title here</title>
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -25,17 +24,14 @@ color:white;
 	padding: 10px;
 	display: flex;
 }
-
 .para {
 	padding: 10px;
 	color: white;
 }
-
 body {
 	
 	background-color:black;
 }
-
 .search_bar {
 	width: 800px;
 	margin: 0 auto;
@@ -44,7 +40,6 @@ body {
 .button{
 	text-align:right;
 }
-
 .commentArea{
 	border-radius:10px;
 	padding:10px;
@@ -172,7 +167,6 @@ document.getElementById('inputGroupFile04').onchange = function () {
 		return;
 	}
 };
-
 const getFreeBoardData = () => {
 	$.ajax({
 		url:"/freeBoard",
@@ -243,7 +237,7 @@ const getFreeBoardData = () => {
 							replies += '<div> ㄴ ' + data[i].replyCommentNickName + ':'+data[i].replyComment +' '+data[i].dateTime +'</div>'
 						}
 					}
-						tr += '<div class="boardCommentBox"><div> 닉네임 :' + commentList[i].nickName + '<button onclick=deleteFnc('+commentList[i].idx+') type="button" class="btn btn-danger">X</button></div><div>' + commentList[i].dateTime + '</div><div>' + commentList[i].boardComment + '</div><div>'+tag+'</div><div>'+replies+' </div><div class="commentsTemplate">'+commentsTemplate+'  </div><button onclick="doWriteReply()" type="button" class="btn btn-light">댓글작성하기</button></div>'
+						tr += '<div class="boardCommentBox"><div> 닉네임 :' + commentList[i].nickName + '<button onclick=deleteFnc('+commentList[i].idx+') type="button" class="btn btn-danger">X</button></div><div>' + commentList[i].dateTime + '</div><div>' + commentList[i].boardComment + '</div><div>'+tag+'</div><div>'+replies+' </div><div class="commentsTemplate">'+commentsTemplate+'  </div><button onclick="doWriteReply(this)" type="button" class="btn btn-light">댓글작성하기</button></div>'
 						$(".commentArea").append(tr); 
 						$(".commentsTemplate").hide();
 					
@@ -262,17 +256,16 @@ document.addEventListener("DOMContentLoaded", function(){
 	getFreeBoardData();
 });
 
-const doWriteReply = () => {
-	//alert("test")
-	$(".commentsTemplate").show();
-	//$(".commentsTemplate").hide();
-	
+function doWriteReply(e){
+	console.log(e)
+	console.log($(e).prev())
+	$(e).prev().show()
+
 }
 
 const writeReplyCancel = () => {
 	$(".commentsTemplate").hide();
 }
-
 const uploadFile = () =>{
 	const nickName = document.getElementById("nickName").value;
 	const comment = document.getElementById("comment").value;
@@ -281,7 +274,6 @@ const uploadFile = () =>{
 		alert("닉네임을 입력해주세요.")
 		return 
 	}
-
 	if(!comment){
 		alert("댓글을 입력해주세요.")
 		return 
@@ -323,7 +315,6 @@ const uploadFile = () =>{
     		     alert("댓글작성에 실패했습니다. 다시 시도해주세요.");
     		    }
     		  });
-
 		
 		$('.commentArea').html('')
 		$('#nickName').val('')
@@ -335,7 +326,6 @@ const uploadFile = () =>{
 		}, 3000)  
 		
 	}
-
 const deleteFnc = (idx) => {
 	const password = prompt('비밀번호를 입력해주세요.');
 	 $.ajax({
@@ -358,7 +348,6 @@ const deleteFnc = (idx) => {
 		}, 20)  */
 		
 }
-
 const writeReplies = (idx) =>{
 	const commentUserNickName = document.getElementById("replyNickName").value;
 	const commentUserPassword = document.getElementById("replyPassWord").value;
@@ -393,7 +382,6 @@ const writeReplies = (idx) =>{
 	
 	
 }
-
 /* window.onscroll = function(ev) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
         
@@ -403,10 +391,5 @@ const writeReplies = (idx) =>{
     	console.log("event detected!",nowPage);
     }
 }; */
-
-
-
-
-
 </script>
 </html>

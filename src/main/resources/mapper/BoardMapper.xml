@@ -236,7 +236,7 @@
 		FROM TB_TAIKO_WIKI_CONTENT t1
 		INNER JOIN TB_TAIKO_SONG_LEVEL t2 ON t1.song_no = t2.SONG_NO
 		INNER JOIN TB_TAIKO_IMAGE t3 ON t1.song_no = t3.SONG_NO
-		WHERE t1.SONG_NAME = #{songName}
+		WHERE t1.SONG_NAME LIKE '%${songName}%'
 
 	</select>
 	
@@ -282,18 +282,18 @@
 	<delete id="deleteFreeBoardImage">
 	DELETE FROM taiko_board_file where idx = '${idx}'
 	</delete>
-	<select id="getReplyCommentList" resultType="com.example.demo.freeBoardDto.FreeBoardReplyCommentDto" parameterType="String">
+	<select id="getReplyCommentList" resultType="com.example.demo.freeBoardDto.FreeBoardReplyCommentDto" parameterType="hashMap">
 		SELECT 
 		idx as idx,
 		boardidx as boardIdx,
 		nickname as replyCommentNickName,
 		replycomment as replyComment,
 		dateTime as dateTime 
-		FROM TAIKO_BOARD_REPLY  WHERE BOARDIDX  = '${commentIdx}'
+		FROM TAIKO_BOARD_REPLY  WHERE BOARDIDX  = '${commentIdx}' and BOARDTYPE = '${type}'
 	</select>
 	<insert id="writeReplies" parameterType="hashMap">
 	INSERT INTO
-		taiko_board_reply(idx,BOARDIDX,NICKNAME,REPLYCOMMENT,PASSWORD)
-		VALUES(taiko_board_reply_comment_seq.nextval,'${idx}','${nickName}','${contents}','${password}')
+		taiko_board_reply(idx,BOARDIDX,NICKNAME,REPLYCOMMENT,PASSWORD,BOARDTYPE)
+		VALUES(taiko_board_reply_comment_seq.nextval,'${idx}','${nickName}','${contents}','${password}','${type}')
 	</insert>
 </mapper>

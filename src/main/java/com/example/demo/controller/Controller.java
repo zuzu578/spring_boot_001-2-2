@@ -72,8 +72,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 public class Controller {
 	private static String BoardFilePath = "/Users/helloworld/git/spring_boot_001-2-5/src/main/webapp/resources/assets/freeBoardImage";
-	private static String FILE_SERVER_PATH = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp";
-	private static String FileSavePath = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp/resources/assets";
+	private static String FILE_SERVER_PATH = "/Users/helloworld/git/spring_boot_001-2-5/src/main/webapp";
+	//private static String FileSavePath = "/Users/helloworld/git/springBoot-Transaction/spring_boot_001 2/src/main/webapp/resources/assets";
+	private static String FileSavePath = "/Users/helloworld/git/spring_boot_001-2-5/src/main/webapp/resources/assets";
+	//private static String fileDownLoad = "/Users/helloworld/git/spring_boot_001-2-5/src/main/webapp/resources/assets";
 	@Autowired
 	private Dao dao;
 
@@ -444,6 +446,7 @@ public class Controller {
 		String filePath = req.getParameter("filePath");
 		TaikoSongDownloadFile fileDown = new TaikoSongDownloadFile(); // 파일다운로드 객체생성
 		try {
+			//fileDown.filDown(req, res, FILE_SERVER_PATH + filePath, fileName, fileName);
 			fileDown.filDown(req, res, FILE_SERVER_PATH + filePath, fileName, fileName);
 		} catch (IOException e) {
 
@@ -539,7 +542,7 @@ public class Controller {
 		return "";
 	}
 	@RequestMapping("/searchSongWiki")
-	public String searchSongWiki(HttpServletRequest req , Model model) {
+	public String searchSongWiki(HttpServletRequest req , Model model , HttpServletResponse res ) throws IOException {
 		HashMap<String, Object> searchParam = new HashMap<String, Object>();
 		
 		String songName = req.getParameter("songName");
@@ -547,9 +550,13 @@ public class Controller {
 		searchParam.put("songName",songName);
 		
 		List<TaikoWikiDto> getWikiResult = dao.getWikiResult(searchParam);
-		
+		if(getWikiResult.size() == 0 ) {
+			PrintWriter out = res.getWriter();
+			out.println("<script>alert('no data !'); window.location.href = '/gowiki'; </script>");
+
+			out.flush();
+		}
 		model.addAttribute("getWikiResult",getWikiResult);
-		model.addAttribute("songName",songName);
 		
 		
 		return "searchSongWiki";
@@ -642,12 +649,17 @@ public class Controller {
 		}
 		
 	}
-	@PostMapping("/getFreeBoardReplyComments")
+	@PostMapping("/getReplyComments")
 	public ResponseEntity<?> getFreeBoardReplyComments(HttpServletRequest req){
+		HashMap<String, Object> paramMap = new HashMap<String , Object>();
 		String commentIdx = req.getParameter("idx");
+		String type = req.getParameter("type");
+		paramMap.put("commentIdx", commentIdx);
+		paramMap.put("type", type);
+		
 		
 		try {
-			List<FreeBoardReplyCommentDto> replyCommentList = dao.getReplyCommentList(commentIdx);
+			List<FreeBoardReplyCommentDto> replyCommentList = dao.getReplyCommentList(paramMap);
 			System.out.println("commentIdx======>"+commentIdx);
 			return new ResponseEntity<>(replyCommentList, HttpStatus.OK);
 		}catch(Exception e) {
@@ -685,7 +697,7 @@ public class Controller {
 		
 	}
 	@PostMapping("/writeReply")
-	public ResponseEntity<?> writeReplies(@RequestParam("nickName") String nickName,@RequestParam("password") String password,@RequestParam("contents") String contents,@RequestParam("idx") String idx) throws NoSuchAlgorithmException{
+	public ResponseEntity<?> writeReplies(@RequestParam("nickName") String nickName,@RequestParam("password") String password,@RequestParam("contents") String contents,@RequestParam("idx") String idx,@RequestParam("type") String type) throws NoSuchAlgorithmException{
 		HashMap<String, Object> paramMap = new HashMap<String,Object>();
 		String salt = password;
 		String hex = null;
@@ -697,6 +709,7 @@ public class Controller {
 		paramMap.put("password",hex);
 		paramMap.put("contents",contents);
 		paramMap.put("idx",idx);
+		paramMap.put("type",type);
 		
 		try {
 			

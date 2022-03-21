@@ -153,9 +153,9 @@ public class Dao {
 		
 	}
 	// 상위 부모 idx 게시물에 대한 하위 idx child 댓글 가져오기 
-	public List<FreeBoardReplyCommentDto> getReplyCommentList(String commentIdx) {
+	public List<FreeBoardReplyCommentDto> getReplyCommentList(HashMap<String, Object> paramMap) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(NAMESPACE+"getReplyCommentList",commentIdx);
+		return sqlSession.selectList(NAMESPACE+"getReplyCommentList",paramMap);
 	}
 	// 댓글작성 
 	public void writeReplies(HashMap<String, Object> paramMap) {

@@ -181,8 +181,8 @@ const getFreeBoardData = () => {
 				const replyCommentsList = (callback) =>{
 					$.ajax({
 					       type: "post",
-				           url: "/getFreeBoardReplyComments",
-				           data:{idx:commentList[i].idx} ,
+				           url: "/getReplyComments",
+				           data:{idx:commentList[i].idx,type:"free"} ,
 				           //async :false,
 				           success: function(data){
 				              callback(data);
@@ -349,6 +349,7 @@ const deleteFnc = (idx) => {
 		
 }
 const writeReplies = (idx) =>{
+	const type = "free";
 	const commentUserNickName = document.getElementById("replyNickName").value;
 	const commentUserPassword = document.getElementById("replyPassWord").value;
 	const commentUserContents = document.getElementById("replyContents").value;
@@ -369,7 +370,7 @@ const writeReplies = (idx) =>{
 	  $.ajax({
 		  url:"/writeReply",
 	   	  type:"POST",
-	   	  data: {"idx":idx,"nickName":commentUserNickName,"password":commentUserPassword,"contents":commentUserContents},
+	   	  data: {"idx":idx,"nickName":commentUserNickName,"password":commentUserPassword,"contents":commentUserContents,"type":type},
 	   	  success:function(){
 	   		$('.commentArea').html('')
 	   		getFreeBoardData()

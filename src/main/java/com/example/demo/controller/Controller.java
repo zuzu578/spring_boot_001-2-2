@@ -656,9 +656,17 @@ public class Controller {
 		String type = req.getParameter("type");
 		paramMap.put("commentIdx", commentIdx);
 		paramMap.put("type", type);
-		
-		
+		String nowPage = req.getParameter("nowPage");
+		String cntPerPage = "10";
+		if (nowPage == null) {
+			nowPage = "1";
+
+		}
 		try {
+			int total = dao.getReplyCount(paramMap);
+			PagingDto pagingResult = new PagingDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			paramMap.put("start", pagingResult.getStart());
+			paramMap.put("end", pagingResult.getEnd());
 			List<FreeBoardReplyCommentDto> replyCommentList = dao.getReplyCommentList(paramMap);
 			System.out.println("commentIdx======>"+commentIdx);
 			return new ResponseEntity<>(replyCommentList, HttpStatus.OK);

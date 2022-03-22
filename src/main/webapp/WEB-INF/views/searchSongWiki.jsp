@@ -23,6 +23,11 @@
 
 .image_area {
 	text-align: center;
+	
+}
+.image_area img{
+	width:50%;
+	
 }
 
 .level_title {
@@ -44,12 +49,24 @@
 	margin:0 auto;
 }
 #commentArea{
-	border:1px solid red;
+	border:1px solid blue;
+	border-radius:10px;
+	
+	padding:10px;
 	margin-top:100px;
 	width:800px;
 	margin:0 auto;
 	
 
+}
+.paging{
+	text-align:center;
+	width:800px;
+	margin:0 auto;
+	
+}
+a{
+	cursor:pointer;
 }
 </style>
 <body>
@@ -144,14 +161,31 @@
 
 
 </div>
-
-	
+<div class="paging">
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" onclick=prev() aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+  
+    <li class="page-item">
+      <a class="page-link" onclick=next() aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+</div>
 
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
+
+let nowPage = 1;
 document.addEventListener("DOMContentLoaded", function(){
 	getReply();
 });
@@ -162,6 +196,7 @@ const getReply = () => {
 	const form = new FormData();
 	form.append('type',type);
 	form.append('idx',idx);
+	form.append("nowPage",nowPage);
 	axios({
 		url: '/getReplyComments',
 		method: 'post',
@@ -169,12 +204,22 @@ const getReply = () => {
 	})
 	.then((res)=>{
 		let tr = '';
-		res.data.map((item)=>{
-			console.log(item)
-			tr += '<div class="boardCommentBox"><div class="nickName"> '+item.replyCommentNickName+': '+item.replyComment+' :'+item.dateTime+' </div></div>'
-			
-		})
-		$('#commentArea').append(tr)
+		console.log('댓글데이터 =>' , res.data)
+		if(res.data.length === 0){
+			alert('마지막 페이지입니다.')
+			return false;
+		}
+		
+		if(res.data.length > 0){
+			$("#commentArea").html("");
+			res.data.map((item)=>{
+				console.log(item)
+				tr += '<div class="boardCommentBox"><div class="nickName"> '+item.replyCommentNickName+': '+item.replyComment+' :'+item.dateTime+' </div></div>'
+				
+			})
+			$('#commentArea').append(tr)
+		}
+		
 		
 	})
 	.catch((e)=>{
@@ -216,6 +261,9 @@ const doReply = () => {
 		data: form
 	})
 	.then((res)=>{
+		$("#nickName").val("");
+		$("#password").val("");
+		$("#comment").val("");
 		
 		$('#commentArea').html('')
 		getReply()
@@ -224,6 +272,27 @@ const doReply = () => {
 		console.log(e.message)
 	})
 	
+}
+
+
+const prev = () => {
+	nowPage --
+	console.log('nowPage ===>' , nowPage);
+	if(nowPage <= 0){
+		alert('마지막 페이지 입니다.')
+		nowPage = 1;
+		return 
+	}
+	//$("#commentArea").html("");
+	getReply();
+	
+	
+}
+
+
+const next = () => {
+	nowPage++
+	getReply();
 }
 
 

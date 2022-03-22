@@ -283,17 +283,26 @@
 	DELETE FROM taiko_board_file where idx = '${idx}'
 	</delete>
 	<select id="getReplyCommentList" resultType="com.example.demo.freeBoardDto.FreeBoardReplyCommentDto" parameterType="hashMap">
-		SELECT 
-		idx as idx,
-		boardidx as boardIdx,
-		nickname as replyCommentNickName,
-		replycomment as replyComment,
-		dateTime as dateTime 
-		FROM TAIKO_BOARD_REPLY  WHERE BOARDIDX  = '${commentIdx}' and BOARDTYPE = '${type}'
+
+		SELECT * FROM (
+			SELECT ROW_NUMBER()over(ORDER BY t1.dateTime DESC) num,
+			t1.idx as idx,
+			t1.boardidx as boardIdx,
+			t1.nickname as replyCommentNickName,
+			t1.replycomment as replyComment,
+			t1.dateTime as dateTime
+			FROM TAIKO_BOARD_REPLY t1 WHERE BOARDIDX = '${commentIdx}' and BOARDTYPE = '${type}'
+		)
+		WHERE num BETWEEN  #{start} AND #{end}
 	</select>
 	<insert id="writeReplies" parameterType="hashMap">
 	INSERT INTO
 		taiko_board_reply(idx,BOARDIDX,NICKNAME,REPLYCOMMENT,PASSWORD,BOARDTYPE)
 		VALUES(taiko_board_reply_comment_seq.nextval,'${idx}','${nickName}','${contents}','${password}','${type}')
 	</insert>
+	
+	<select id="getReplyCount" parameterType="hashMap" resultType="int">
+	SELECT count(*) FROM TAIKO_BOARD_REPLY 
+	WHERE BOARDTYPE ='${type}' AND BOARDIDX ='${commentIdx}'
+	</select>
 </mapper>

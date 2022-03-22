@@ -162,5 +162,10 @@ public class Dao {
 		sqlSession.insert(NAMESPACE+"writeReplies",paramMap);
 		
 	}
+	// 하위댓글 count 
+	public int getReplyCount(HashMap<String, Object> paramMap) {
+		
+		return sqlSession.selectOne(NAMESPACE+"getReplyCount",paramMap);
+	}
 
 }

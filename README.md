@@ -62,6 +62,14 @@
 
 # wiki 에 댓글기능 추가
 <img width="1099" alt="스크린샷 2022-03-21 오후 5 54 10" src="https://user-images.githubusercontent.com/69393030/159229812-209ab69c-0a87-4d3b-8331-0b9be7a3bd9f.png">
+# 댓글 페이지네이션 구현 
+<img width="933" alt="스크린샷 2022-03-22 오후 9 47 47" src="https://user-images.githubusercontent.com/69393030/159485383-0aa8625b-454e-4e35-99a2-787c20088953.png">
+이전 , 다음 버튼을 누르면 다음 댓글 , 이전댓글을 확인할수있다.
 
 위키작성한 게시물에 대한 댓글 기능을 추가하였다.
+
+# wiki 글 편집기능 
+위키정보를 사용자가 수정할수 있도록 기능을 추가한다.
+해당곡의 난이도 , 작가 , 작곡가 , 영상 정보 등 을 수정할수있다.
+<img width="993" alt="스크린샷 2022-03-23 오후 3 59 10" src="https://user-images.githubusercontent.com/69393030/159641380-003e2cd2-ae91-4e82-9b08-d44e8eebd15d.png">
 

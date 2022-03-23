@@ -236,7 +236,12 @@
 		FROM TB_TAIKO_WIKI_CONTENT t1
 		INNER JOIN TB_TAIKO_SONG_LEVEL t2 ON t1.song_no = t2.SONG_NO
 		INNER JOIN TB_TAIKO_IMAGE t3 ON t1.song_no = t3.SONG_NO
+		<if test="songName != null">
 		WHERE t1.SONG_NAME LIKE '%${songName}%'
+		</if>
+		<if test="idx != null">
+		WHERE t1.SONG_NO = '${idx}'
+		</if>
 
 	</select>
 	
@@ -305,4 +310,40 @@
 	SELECT count(*) FROM TAIKO_BOARD_REPLY 
 	WHERE BOARDTYPE ='${type}' AND BOARDIDX ='${commentIdx}'
 	</select>
+	<update id="updateSongWiki" parameterType="hashMap">
+	UPDATE tb_taiko_wiki_content
+	SET
+	SONG_DESCRIPTION2 = '${song_description2}',
+	SONG_WRITER = '${songWriter}',
+	MUSICSHEET_WRITER = '${musicSheetWriter}',
+	SONG_RECORDED_VERSION = '${musicVersion}',
+	SONG_NAME = '${songName}',
+	YOUTUBE_URL = '${youtubeUrl}',
+	SONG_GENRE = '${songGenre}',
+	SONG_DESCRIPTION = '${songDescription}'
+	WHERE
+	SONG_NO = '${idx}'
+	
+	</update>
+	<update id="editWikiSongLevel" parameterType="hashMap">
+	UPDATE TB_TAIKO_SONG_LEVEL
+	SET
+	KANTAN = '${kantanLevel}',
+	HUTSUU = '${hutsuuLevel}',
+	MUZUKASHI = '${muzukashiLevel}',
+	ONI = '${oniLevel}',
+	URA = '${uraLevel}'
+	
+	WHERE
+	SONG_NO = '${idx}'
+	</update>
+	<update id="updateSongImage" parameterType="hashMap">
+	UPDATE TB_TAIKO_IMAGE
+	SET
+	FILE_NAME = '${songImageName}',
+	FILE_PATH = '${filePath}',
+	IMAGE_STATUS = '${imageStatus}'
+	WHERE
+	SONG_NO = '${idx}'
+	</update>
 </mapper>

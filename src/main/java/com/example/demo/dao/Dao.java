@@ -167,5 +167,20 @@ public class Dao {
 		
 		return sqlSession.selectOne(NAMESPACE+"getReplyCount",paramMap);
 	}
+	// 위키 수정 
+	public void updateSongWiki(HashMap<String, Object> songInfo) {
+		 sqlSession.update(NAMESPACE+"updateSongWiki",songInfo);
+		
+	}
+	// 위키 레벨수정 
+	public void editWikiSongLevel(HashMap<String, Object> songLevel) {
+		sqlSession.update(NAMESPACE+"editWikiSongLevel",songLevel);
+		
+	}
+	// 위키 이미지 수정 
+	public void updateSongImage(HashMap<String, Object> imageParams) {
+		sqlSession.update(NAMESPACE+"updateSongImage",imageParams);
+		
+	}
 
 }

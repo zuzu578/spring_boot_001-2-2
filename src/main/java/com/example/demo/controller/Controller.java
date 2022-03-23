@@ -486,6 +486,7 @@ public class Controller {
 		String musicVersion = req.getParameter("musicVersion");
 		String songGenre = req.getParameter("songGenre");
 		String youtubeUrl = req.getParameter("youtubeUrl");
+		
 		songInfo.put("songName", songName);
 		songInfo.put("songDescription", songDescription);
 		songInfo.put("song_description2", song_description2);
@@ -494,6 +495,7 @@ public class Controller {
 		songInfo.put("musicVersion", musicVersion);
 		songInfo.put("songGenre", songGenre);
 		songInfo.put("youtubeUrl", youtubeUrl);
+		
 
 		dao.insertWikiSongInfo(songInfo);
 
@@ -560,6 +562,91 @@ public class Controller {
 		
 		
 		return "searchSongWiki";
+	}
+	
+	@RequestMapping("/editSongWiki")
+	public String editSongWiki(HttpServletRequest req , Model model) {
+		HashMap<String, Object> searchParam = new HashMap<String, Object>();
+		String idx = req.getParameter("idx");
+		searchParam.put("idx", idx);
+		List<TaikoWikiDto> getWikiResult = dao.getWikiResult(searchParam);
+		model.addAttribute("getWikiResult",getWikiResult);
+		return "editSongWiki";
+	}
+	@RequestMapping(value ="/editWiki" , method = RequestMethod.POST)
+	public String editWiki
+	(@RequestParam("songImage") MultipartFile songImage, ModelAndView mv,
+			HttpServletRequest req, Model model, HttpServletResponse res) throws IllegalStateException, IOException {
+		HashMap<String, Object> songLevel = new HashMap<String, Object>(); // tb_taiko_song_level 에 넣을 params
+		HashMap<String, Object> songInfo = new HashMap<String, Object>(); // tb_taiko_wiki_content에 넣을 params
+		HashMap<String, Object> imageParams = new HashMap<String, Object>(); // TB_TAIKO_IMAGE에 넣을 params
+
+		// 곡 정보
+		String songName = req.getParameter("songName");
+		String songDescription = req.getParameter("songDescription");
+		String song_description2 = req.getParameter("song_description2");
+		String songWriter = req.getParameter("songWriter");
+		String musicSheetWriter = req.getParameter("musicSheetWriter");
+		String musicVersion = req.getParameter("musicVersion");
+		String songGenre = req.getParameter("songGenre");
+		String youtubeUrl = req.getParameter("youtubeUrl");
+		String idx = req.getParameter("idx");
+		songInfo.put("songName", songName);
+		songInfo.put("songDescription", songDescription);
+		songInfo.put("song_description2", song_description2);
+		songInfo.put("songWriter", songWriter);
+		songInfo.put("musicSheetWriter", musicSheetWriter);
+		songInfo.put("musicVersion", musicVersion);
+		songInfo.put("songGenre", songGenre);
+		songInfo.put("youtubeUrl", youtubeUrl);
+		
+		songInfo.put("idx", idx);
+		dao.updateSongWiki(songInfo);
+
+		// 곡의 난이도 설명
+		String kantanLevel = req.getParameter("kantanLevel");
+		songLevel.put("kantanLevel", kantanLevel);
+		String hutsuuLevel = req.getParameter("hutsuuLevel");
+		songLevel.put("hutsuuLevel", hutsuuLevel);
+		String muzukashiLevel = req.getParameter("muzukashiLevel");
+		songLevel.put("muzukashiLevel", muzukashiLevel);
+		String oniLevel = req.getParameter("oniLevel");
+		songLevel.put("oniLevel", oniLevel);
+		String uraLevel = req.getParameter("uraLevel");
+		songLevel.put("uraLevel", uraLevel);
+		songLevel.put("idx", idx);
+		
+		dao.editWikiSongLevel(songLevel);
+
+		/* 파일 업로드 ! */
+		if (!songImage.getOriginalFilename().isEmpty()) {
+
+			songImage.transferTo(new File(FileSavePath + "/wikiImage", songImage.getOriginalFilename())); //위키 이미지 경로에 파일떨굽니다.
+
+			String fileName = songImage.getOriginalFilename();
+
+			imageParams.put("songImageName", fileName); // SAMPLE_SONG
+
+			imageParams.put("filePath", "/resources/assets/wikiImage"); // 위키 이미지 저장경로
+			imageParams.put("imageStatus","wiki");
+			imageParams.put("idx", idx);
+			dao.updateSongImage(imageParams);
+		
+			PrintWriter out = res.getWriter();
+
+			out.println("<script>alert('success!'); window.location.href = '/gowiki'; </script>");
+
+			out.flush();
+
+		} else {
+			PrintWriter out = res.getWriter();
+			out.println("<script>alert('success!'); window.location.href = '/gowiki'; </script>");
+
+			out.flush();
+
+		}
+		
+		return "";
 	}
 	
 	

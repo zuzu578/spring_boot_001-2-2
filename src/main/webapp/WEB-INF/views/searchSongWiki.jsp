@@ -74,7 +74,9 @@ a{
 	<h1 class="song_nName">
 	<c:forEach var="getWikiResult" items="${getWikiResult}">
 	${getWikiResult.songName }
+	<input type = hidden id="idx" value=${getWikiResult.songNo }>
 	</c:forEach>
+	<button type="button" onclick="editWiki()" class="btn btn-dark">편집</button>
 	</h1>
 	
 
@@ -83,7 +85,7 @@ a{
 	<div class="songInfoBox">
 		<c:forEach var="getWikiResult" items="${getWikiResult}"
 			varStatus="status">
-			<input type = hidden id="idx" value=${getWikiResult.songNo }>
+			
 			<div class="image_area">
 				<img src=".${getWikiResult.filePath }/${getWikiResult.fileName}">
 
@@ -293,6 +295,12 @@ const prev = () => {
 const next = () => {
 	nowPage++
 	getReply();
+}
+
+const editWiki = () => {
+	const idx = document.getElementById("idx").value;
+	
+	window.location.href = '/editSongWiki?idx='+idx+'';
 }
 
 

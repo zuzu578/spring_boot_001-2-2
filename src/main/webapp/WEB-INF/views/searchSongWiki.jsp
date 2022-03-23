@@ -11,7 +11,7 @@
 </head>
 <style>
 .songInfoBox {
-	width: 800px;
+	width: 1000px;
 	border: 1px solid gray;
 	margin: 0 auto;
 	padding: 10px;
@@ -42,6 +42,8 @@
 .MainDescription{
 	padding-left:50px;
 	padding-right:50px;
+	width:1000px;
+	margin:0 auto;
 	
 }
 .replyForm{

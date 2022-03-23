@@ -73,3 +73,6 @@
 해당곡의 난이도 , 작가 , 작곡가 , 영상 정보 등 을 수정할수있다.
 <img width="993" alt="스크린샷 2022-03-23 오후 3 59 10" src="https://user-images.githubusercontent.com/69393030/159641380-003e2cd2-ae91-4e82-9b08-d44e8eebd15d.png">
 
+# ckeditor 를 이용한 여러개의 영상 첨부 
+<img width="1001" alt="스크린샷 2022-03-23 오후 5 24 08" src="https://user-images.githubusercontent.com/69393030/159655139-129e2ecd-e8e8-4bb6-928a-171fecd37caa.png">
+ckeditor 에서 embeded link 를 이용하여 여러개의 유튜브 링크를 첨부하여 영상을 여러개 올릴수 있도록한다.

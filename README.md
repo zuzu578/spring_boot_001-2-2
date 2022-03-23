@@ -76,3 +76,7 @@
 # ckeditor 를 이용한 여러개의 영상 첨부 
 <img width="1001" alt="스크린샷 2022-03-23 오후 5 24 08" src="https://user-images.githubusercontent.com/69393030/159655139-129e2ecd-e8e8-4bb6-928a-171fecd37caa.png">
 ckeditor 에서 embeded link 를 이용하여 여러개의 유튜브 링크를 첨부하여 영상을 여러개 올릴수 있도록한다.
+# wiki 최근 게시물 보이기 
+
+<img width="1188" alt="스크린샷 2022-03-23 오후 8 15 51" src="https://user-images.githubusercontent.com/69393030/159687399-de7224b4-1f5b-417d-82f6-e25facc8ed7e.png">
+

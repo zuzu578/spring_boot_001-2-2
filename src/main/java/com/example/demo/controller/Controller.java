@@ -464,8 +464,9 @@ public class Controller {
 
 	// 태고의달인 위키 페이지로 이동합니다.
 	@RequestMapping("/gowiki")
-	public String gowiki() {
-
+	public String gowiki(Model model) {
+		int count = dao.getWikiCount();
+		model.addAttribute("count",count);
 		return "gowiki";
 	}
 	// 태고의달인 위키 문서를 작성합니다.
@@ -816,6 +817,13 @@ public class Controller {
 			 return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 			
 		}
+	}
+	@GetMapping("/getRecentWiki")
+	public ResponseEntity<?> getRecentWiki(){
+			List<TaikoWikiDto> result = dao.getRecentWiki();
+			System.out.println("result => "+ result );
+			return new ResponseEntity<>(result,HttpStatus.OK);
+		
 	}
 
 }

@@ -16,134 +16,118 @@ public class TaikoWikiDto {
 	private String fileName;
 	private String filePath;
 	private String youtubeUrl;
-
+	private String dateTime;
 	public String getSongDescription2() {
 		return songDescription2;
 	}
-
 	public void setSongDescription2(String songDescription2) {
 		this.songDescription2 = songDescription2;
 	}
-
 	public String getSongWriter() {
 		return songWriter;
 	}
-
 	public void setSongWriter(String songWriter) {
 		this.songWriter = songWriter;
 	}
-
 	public String getSongRecordVersion() {
 		return songRecordVersion;
 	}
-
 	public void setSongRecordVersion(String songRecordVersion) {
 		this.songRecordVersion = songRecordVersion;
 	}
-
 	public String getSongName() {
 		return songName;
 	}
-
 	public void setSongName(String songName) {
 		this.songName = songName;
 	}
-
 	public String getSongGenre() {
 		return songGenre;
 	}
-
 	public void setSongGenre(String songGenre) {
 		this.songGenre = songGenre;
 	}
-
 	public String getSongNo() {
 		return songNo;
 	}
-
 	public void setSongNo(String songNo) {
 		this.songNo = songNo;
 	}
-
 	public String getSongDescription() {
 		return songDescription;
 	}
-
 	public void setSongDescription(String songDescription) {
 		this.songDescription = songDescription;
 	}
-
 	public String getKantan() {
 		return kantan;
 	}
-
 	public void setKantan(String kantan) {
 		this.kantan = kantan;
 	}
-
 	public String getHutsuu() {
 		return hutsuu;
 	}
-
 	public void setHutsuu(String hutsuu) {
 		this.hutsuu = hutsuu;
 	}
-
 	public String getMuzukashi() {
 		return muzukashi;
 	}
-
 	public void setMuzukashi(String muzukashi) {
 		this.muzukashi = muzukashi;
 	}
-
 	public String getOni() {
 		return oni;
 	}
-
 	public void setOni(String oni) {
 		this.oni = oni;
 	}
-
 	public String getUra() {
 		return ura;
 	}
-
 	public void setUra(String ura) {
 		this.ura = ura;
 	}
-
 	public String getFileName() {
 		return fileName;
 	}
-
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-
 	public String getFilePath() {
 		return filePath;
 	}
-
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
-
 	public String getYoutubeUrl() {
 		return youtubeUrl;
 	}
-
 	public void setYoutubeUrl(String youtubeUrl) {
 		this.youtubeUrl = youtubeUrl;
 	}
-
+	public String getDateTime() {
+		return dateTime;
+	}
+	public void setDateTime(String dateTime) {
+		this.dateTime = dateTime;
+	}
 	@Override
 	public String toString() {
 		return "TaikoWikiDto [songDescription2=" + songDescription2 + ", songWriter=" + songWriter
 				+ ", songRecordVersion=" + songRecordVersion + ", songName=" + songName + ", songGenre=" + songGenre
 				+ ", songNo=" + songNo + ", songDescription=" + songDescription + ", kantan=" + kantan + ", hutsuu="
 				+ hutsuu + ", muzukashi=" + muzukashi + ", oni=" + oni + ", ura=" + ura + ", fileName=" + fileName
-				+ ", filePath=" + filePath + ", youtubeUrl=" + youtubeUrl + "]";
+				+ ", filePath=" + filePath + ", youtubeUrl=" + youtubeUrl + ", dateTime=" + dateTime
+				+ ", getSongDescription2()=" + getSongDescription2() + ", getSongWriter()=" + getSongWriter()
+				+ ", getSongRecordVersion()=" + getSongRecordVersion() + ", getSongName()=" + getSongName()
+				+ ", getSongGenre()=" + getSongGenre() + ", getSongNo()=" + getSongNo() + ", getSongDescription()="
+				+ getSongDescription() + ", getKantan()=" + getKantan() + ", getHutsuu()=" + getHutsuu()
+				+ ", getMuzukashi()=" + getMuzukashi() + ", getOni()=" + getOni() + ", getUra()=" + getUra()
+				+ ", getFileName()=" + getFileName() + ", getFilePath()=" + getFilePath() + ", getYoutubeUrl()="
+				+ getYoutubeUrl() + ", getDateTime()=" + getDateTime() + ", getClass()=" + getClass() + ", hashCode()="
+				+ hashCode() + ", toString()=" + super.toString() + "]";
 	}
 
 }

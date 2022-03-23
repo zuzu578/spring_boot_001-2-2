@@ -182,5 +182,15 @@ public class Dao {
 		sqlSession.update(NAMESPACE+"updateSongImage",imageParams);
 		
 	}
+	// 위키 게시물 갯수
+	public int getWikiCount() {
+		return sqlSession.selectOne(NAMESPACE+"getWikiCount");
+		
+	}
+	// 최근 위키 게시물 가져오기 
+	public List<TaikoWikiDto> getRecentWiki() {
+		
+		return sqlSession.selectList(NAMESPACE+"getRecentWiki");
+	}
 
 }

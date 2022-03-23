@@ -346,4 +346,21 @@
 	WHERE
 	SONG_NO = '${idx}'
 	</update>
+	
+	<select id="getWikiCount" resultType="int">
+			SELECT COUNT(*) FROM  TB_TAIKO_WIKI_CONTENT
+	
+	</select>
+	
+	<select id="getRecentWiki" resultType="com.example.demo.wikidto.TaikoWikiDto">
+	
+	SELECT 
+	SONG_NAME as songName,
+	SONG_GENRE as songGenre,
+	DATETIME as dateTime
+	
+	FROM TB_TAIKO_WIKI_CONTENT 
+	ORDER BY dateTime desc 
+	
+	</select>
 </mapper>

@@ -521,6 +521,10 @@ public class Controller {
 
 			String fileName = songImage.getOriginalFilename();
 
+		    if(fileName.equals("") || fileName == null) {
+		    	fileName = "";
+		    }
+
 			imageParams.put("songImageName", fileName); // SAMPLE_SONG
 
 			imageParams.put("filePath", "/resources/assets/wikiImage"); // 위키 이미지 저장경로
@@ -825,5 +829,17 @@ public class Controller {
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		
 	}
+	@PostMapping("/autocomplete")
+	public ResponseEntity<?>autocomplete(HttpServletRequest req){
+		try {
+			String term = req.getParameter("term");
+			List<Object> resultList = dao.autoComplete(term);
+			
+			return new ResponseEntity<>(resultList,HttpStatus.OK);
+		}catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+		}
+	}
+	
 
 }

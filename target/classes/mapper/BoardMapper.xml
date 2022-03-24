@@ -234,8 +234,8 @@
 		t3.file_name as fileName,
 		t3.file_path as filePath
 		FROM TB_TAIKO_WIKI_CONTENT t1
-		INNER JOIN TB_TAIKO_SONG_LEVEL t2 ON t1.song_no = t2.SONG_NO
-		INNER JOIN TB_TAIKO_IMAGE t3 ON t1.song_no = t3.SONG_NO
+		left JOIN TB_TAIKO_SONG_LEVEL t2 ON t1.song_no = t2.SONG_NO
+		left JOIN TB_TAIKO_IMAGE t3 ON t1.song_no = t3.SONG_NO
 		<if test="songName != null">
 		WHERE t1.SONG_NAME LIKE '%${songName}%'
 		</if>
@@ -362,5 +362,11 @@
 	FROM TB_TAIKO_WIKI_CONTENT 
 	ORDER BY dateTime desc 
 	
+	</select>
+	
+	<select id="autoComplete" resultType="hashMap" parameterType="String">
+			
+		select song_name as songName from TB_TAIKO_WIKI_CONTENT where song_name like concat('%',concat(UPPER('${term}'),'%')) or 
+        song_name like concat('%',concat(LOWER('${term}'),'%'))
 	</select>
 </mapper>

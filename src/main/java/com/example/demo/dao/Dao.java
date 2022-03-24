@@ -192,5 +192,9 @@ public class Dao {
 		
 		return sqlSession.selectList(NAMESPACE+"getRecentWiki");
 	}
+	// 자동완성 기능 
+	public List<Object> autoComplete(String term) {
+		return sqlSession.selectList(NAMESPACE+"autoComplete",term);
+	}
 
 }

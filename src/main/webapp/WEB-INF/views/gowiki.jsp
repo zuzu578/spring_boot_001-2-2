@@ -58,6 +58,12 @@ text-align:center;
 }
 .infomations{padding:10px;
 }
+.autoComplete{
+background-color:white;
+
+
+}
+
 </style>
 </head>
 <body>
@@ -91,7 +97,7 @@ text-align:center;
 		<form action="searchSongWiki" method="get">
 
 			<div class="input-group mb-3">
-
+			
 				<input type="text" class="form-control"
 					placeholder="검색하고싶으신 곡을 입력하세요" aria-label="Username"
 					aria-describedby="basic-addon1" name="songName" id="songName">
@@ -125,10 +131,46 @@ text-align:center;
 </body>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 
 document.addEventListener("DOMContentLoaded", function(){
 	getRecentWiki();
+	$("#songName").autocomplete({
+		source : function(request, response) {
+			console.log('request , response => ' , request.term)
+			$.ajax({
+
+				url : "/autocomplete",
+				type : "post",
+				dataType : "json",
+				data: {"term":request.term},
+
+				success : function(data) {
+					
+					//var result = data;
+					//response(result);
+					response(data.map((item)=>{
+						 return {
+                           
+                             value : item.SONGNAME,
+                             
+                         }
+					}))
+					
+				},
+
+				error : function(data) {
+					console.log(data);
+				}
+			});
+		}
+	})
+	.autocomplete('instance')._renderItem = function(ul, item) { // UI 변경 부
+        return $('<div>') 
+        .append('<div class="autoComplete">' + item.value+ '</div>') // 원하는 모양의 HTML 만들면 됨
+        .appendTo(ul);
+    };
 	
 });
 

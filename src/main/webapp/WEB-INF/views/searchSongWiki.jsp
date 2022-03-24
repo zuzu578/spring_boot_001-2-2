@@ -210,7 +210,7 @@ const getReply = () => {
 		let tr = '';
 		console.log('댓글데이터 =>' , res.data)
 		if(res.data.length === 0){
-			alert('마지막 페이지입니다.')
+			//alert('마지막 페이지입니다.')
 			return false;
 		}
 		
@@ -283,7 +283,7 @@ const prev = () => {
 	nowPage --
 	console.log('nowPage ===>' , nowPage);
 	if(nowPage <= 0){
-		alert('마지막 페이지 입니다.')
+		//alert('마지막 페이지 입니다.')
 		nowPage = 1;
 		return 
 	}

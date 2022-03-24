@@ -1,7 +1,10 @@
-# spring_boot_001-2-2
-태고의달인 wiki,음원다운로드사이트
+# 태고의달인 사이트 
 <img src="https://taiko.namco-ch.net/taiko/images/top/img_mv.jpg">
+1) 태고의달인 음원 , 채보 다운로드 , 유저 업로드 사이트
 
+2) 태고의달인 정보 (wiki 백과 ) 편집 , 작성 기능 
+
+3) 태고의달인 커뮤니티 기능 
 # 기능 
 
 <img width="1212" alt="스크린샷 2021-10-24 오후 11 46 04" src="https://user-images.githubusercontent.com/69393030/138599228-fc2806ac-cefb-4f5a-912c-c2e7a3b8163d.png">
@@ -76,3 +79,7 @@
 # ckeditor 를 이용한 여러개의 영상 첨부 
 <img width="1001" alt="스크린샷 2022-03-23 오후 5 24 08" src="https://user-images.githubusercontent.com/69393030/159655139-129e2ecd-e8e8-4bb6-928a-171fecd37caa.png">
 ckeditor 에서 embeded link 를 이용하여 여러개의 유튜브 링크를 첨부하여 영상을 여러개 올릴수 있도록한다.
+
+# wiki 최근 게시물 보이기 
+<img width="1188" alt="스크린샷 2022-03-23 오후 8 15 51" src="https://user-images.githubusercontent.com/69393030/159687399-de7224b4-1f5b-417d-82f6-e25facc8ed7e.png">
+

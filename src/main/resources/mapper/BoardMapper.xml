@@ -369,4 +369,21 @@
 		select song_name as songName from TB_TAIKO_WIKI_CONTENT where song_name like concat('%',concat(UPPER('${term}'),'%')) or 
         song_name like concat('%',concat(LOWER('${term}'),'%'))
 	</select>
+	<select id="getExcelData" resultType="com.example.demo.excelDownloadDto.ExcelObjects" parameterType="String">
+	select
+	song_no as songNo,
+	song_name as songName,
+	song_genre as genre,
+	song_type as songType
+	 <if test='genre == "all"'>
+		from TB_TAIKO_SONGS
+		order by songNo asc 
+	</if>
+	 <if test='genre != "all"'>
+	from tb_taiko_songs 
+	where SONG_GENRE = '${genre}'
+	order by songNo asc 
+	</if>
+	
+	</select>
 </mapper>

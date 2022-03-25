@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 
 import com.example.demo.controller.PagingDto;
+import com.example.demo.excelDownloadDto.ExcelObjects;
 import com.example.demo.freeBoardDto.FreeBoard;
 import com.example.demo.freeBoardDto.FreeBoardReplyCommentDto;
 import com.example.demo.wikidto.TaikoWikiDto;
@@ -195,6 +196,12 @@ public class Dao {
 	// 자동완성 기능 
 	public List<Object> autoComplete(String term) {
 		return sqlSession.selectList(NAMESPACE+"autoComplete",term);
+	}
+
+	// 엑셀 다운로드 기능
+	public List<ExcelObjects> getExcelData(String genre) {
+		
+		return sqlSession.selectList(NAMESPACE+"getExcelData",genre);
 	}
 
 }

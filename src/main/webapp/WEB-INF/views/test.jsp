@@ -109,6 +109,11 @@
 			<p class="para">
 				<a href="/freeTalkBoard" style="color: white; text-decoration: none"> 자유게시판</a>
 			</p>
+			<p class="para">
+				<a href="/excelDownloadPage" style="color: white; text-decoration: none"> 수록곡 엑셀다운로드</a>
+			</p>
+			
+			
 		</div>
 
 

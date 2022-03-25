@@ -359,15 +359,12 @@ const writeReplies = (idx,e) =>{
 	const nickNameNode = $(parent)[0].children[0];
 	const replyPassWordNode = $(parent)[0].children[1];
 	const replyContentsNode = $(parent)[0].children[1].children[1];
-	console.log($(nickNameNode).children().val())
-	console.log($(replyPassWordNode).children().val())
-	console.log($(replyContentsNode).children().val())
 	
-	const type = "free";
 	const commentUserNickName = $(nickNameNode).children().val();
 	const commentUserPassword = $(replyPassWordNode).children().val();
 	const commentUserContents = $(replyContentsNode).children().val();
 	
+	const type = "free";
 	if(!commentUserNickName){
 		alert('닉네임을 입력해주세요.');
 		return 

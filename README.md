@@ -5,6 +5,8 @@
 2) 태고의달인 정보 (wiki 백과 ) 편집 , 작성 기능 
 
 3) 태고의달인 커뮤니티 기능 
+
+4) 태고의달인 수록곡 엑셀 다운로드 기능 
 # 기능 
 
 <img width="1212" alt="스크린샷 2021-10-24 오후 11 46 04" src="https://user-images.githubusercontent.com/69393030/138599228-fc2806ac-cefb-4f5a-912c-c2e7a3b8163d.png">

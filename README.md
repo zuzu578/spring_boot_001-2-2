@@ -83,3 +83,9 @@ ckeditor 에서 embeded link 를 이용하여 여러개의 유튜브 링크를 �
 # wiki 최근 게시물 보이기 
 <img width="1188" alt="스크린샷 2022-03-23 오후 8 15 51" src="https://user-images.githubusercontent.com/69393030/159687399-de7224b4-1f5b-417d-82f6-e25facc8ed7e.png">
 
+# 태고의달인 수록곡 exceldownload 기능 
+<img width="700" alt="스크린샷 2022-03-25 오후 5 20 07" src="https://user-images.githubusercontent.com/69393030/160082047-d1bdabfa-99b7-4ca3-8907-7dfd6ab6b0d5.png">
+
+태고의달인 수록곡을 excel 문서화 하여 사용자한테 제공한다.
+<img width="1077" alt="스크린샷 2022-03-25 오후 5 20 29" src="https://user-images.githubusercontent.com/69393030/160082091-0931e123-65e0-4e05-9dc7-ae821cbb32b2.png">
+

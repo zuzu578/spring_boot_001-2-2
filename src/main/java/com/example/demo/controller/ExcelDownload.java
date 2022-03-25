@@ -28,9 +28,7 @@ public class ExcelDownload {
 	}
 	@GetMapping("/excelDownload")
 	public void excelDownload(HttpServletRequest req,HttpServletResponse res) throws IOException {
-		 //List<ExcelObjects> data = 
 		String genre = req.getParameter("genre");
-		System.out.println("genre =>" + genre);
 		List<ExcelObjects> data = dao.getExcelData(genre);
 		Workbook wb = new XSSFWorkbook();
 		Sheet sheet = wb.createSheet("첫번째 시트");

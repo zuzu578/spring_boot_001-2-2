@@ -230,7 +230,7 @@ const getFreeBoardData = () => {
 					})
 					let replies = '';
 					// 댓글
-					let commentsTemplate = '<div> <input type="text" class="form-control" placeholder="닉네임" id="replyNickName" aria-describedby="basic-addon1">  </div> <div><input type="password" class="form-control" placeholder="비밀번호" id="replyPassWord" aria-describedby="basic-addon1"><div> <textarea class="form-control" id="replyContents" value=""></textarea> </div><div class="replyButton"><button type="button" onclick="writeReplyCancel()" class="btn btn-danger">취소</button><button onclick=writeReplies('+commentList[i].idx+') type="button" class="btn btn-success">댓글작성</button></div> </div>';
+					let commentsTemplate = '<div><input type="text" class="form-control" placeholder="닉네임" id="replyNickName" name="replyNickName" aria-describedby="basic-addon1">  </div> <div><input type="password" class="form-control" placeholder="비밀번호" id="replyPassWord" aria-describedby="basic-addon1"><div><input type="replyContents" class="form-control" placeholder="댓글" id="replyContents" aria-describedby="basic-addon1"></div><div class="replyButton"><button type="button" onclick="writeReplyCancel()" class="btn btn-danger">취소</button><button onclick=writeReplies('+commentList[i].idx+',this) type="button" class="btn btn-success">댓글작성</button></div> </div>';
 					if(found){
 						for(let i = 0 ; i < data.length ; i++){
 							console.log('댓글 내놔 ' , data[i])
@@ -253,12 +253,14 @@ const getFreeBoardData = () => {
 	})
 }
 document.addEventListener("DOMContentLoaded", function(){
+	/* const commentUserNickName = document.getElementById("replyNickName").value;
+	const commentUserPassword = document.getElementById("replyPassWord").value;
+	const commentUserContents = document.getElementById("replyContents").value;
+	console.log("최초",commentUserNickName,commentUserPassword,commentUserContents) */
 	getFreeBoardData();
 });
 
 function doWriteReply(e){
-	console.log(e)
-	console.log($(e).prev())
 	$(e).prev().show()
 
 }
@@ -348,12 +350,24 @@ const deleteFnc = (idx) => {
 		}, 20)  */
 		
 }
-const writeReplies = (idx) =>{
+const writeReplies = (idx,e) =>{
+	//console.log($(e).attr('.replyPassWord'))
+	
+
+	const parent = $(e).parent().parent().parent()[0];
+	
+	const nickNameNode = $(parent)[0].children[0];
+	const replyPassWordNode = $(parent)[0].children[1];
+	const replyContentsNode = $(parent)[0].children[1].children[1];
+	console.log($(nickNameNode).children().val())
+	console.log($(replyPassWordNode).children().val())
+	console.log($(replyContentsNode).children().val())
+	
 	const type = "free";
-	const commentUserNickName = document.getElementById("replyNickName").value;
-	const commentUserPassword = document.getElementById("replyPassWord").value;
-	const commentUserContents = document.getElementById("replyContents").value;
-	console.log(commentUserNickName,commentUserPassword,commentUserContents)
+	const commentUserNickName = $(nickNameNode).children().val();
+	const commentUserPassword = $(replyPassWordNode).children().val();
+	const commentUserContents = $(replyContentsNode).children().val();
+	
 	if(!commentUserNickName){
 		alert('닉네임을 입력해주세요.');
 		return 

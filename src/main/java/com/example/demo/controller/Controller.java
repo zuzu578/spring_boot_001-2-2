@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dao.Dao;
 import com.example.demo.freeBoardDto.FreeBoard;
@@ -548,6 +549,12 @@ public class Controller {
 
 		return "";
 	}
+	
+//	@RequestMapping("/wikiResultLists")
+//	public String wikiResultLists(@RequestParam("getWikiResult")List<Object> getWikiResult,Model model) {
+//		model.addAttribute("getWikiResult",getWikiResult);
+//		return "wikiResultLists";
+//	}
 	@RequestMapping("/searchSongWiki")
 	public String searchSongWiki(HttpServletRequest req , Model model , HttpServletResponse res ) throws IOException {
 		HashMap<String, Object> searchParam = new HashMap<String, Object>();
@@ -562,6 +569,12 @@ public class Controller {
 			out.println("<script>alert('no data !'); window.location.href = '/gowiki'; </script>");
 
 			out.flush();
+		}
+		if(getWikiResult.size() >=2) {
+			model.addAttribute("songName",songName);
+			model.addAttribute("getWikiResult",getWikiResult);
+			model.addAttribute("count",getWikiResult.size());
+			return "wikiResultLists";
 		}
 		model.addAttribute("getWikiResult",getWikiResult);
 		

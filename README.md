@@ -13,6 +13,11 @@ jsp , spring boot , oracle , es6 , jquery , vue js (template)
 4) 태고의달인 수록곡 엑셀 다운로드 기능 (library : poi 사용)
 
 5) 태고의달인 수록곡 크롤링 기능 (library : jsoup 사용)
+
+# 개요 
+태고의달인 이라는 게임의 수록곡 정보 , 음원 파일 등을 유저에게 제공하기 위한 사이트를 만들고 싶었으나 해당 정보에대한 rest api 가 없어서 직접 공식 사이트에서 수록곡을 장르별로 크롤링하여 데이터베이스에 저장하고 , 음원을 유저들이 자유롭게 올릴수있고 , 미리들을수 있으며 , 다운로드 할수 있도록 만들었습니다. 
+
+또한 태고의달인 이라는 게임을 하는 유저들끼리 자유롭게 영상과 , 댓글을 게시하고 정보등을 올릴수있는 (wiki 백과) 기능을 추가하여 유저들이 자유롭게 정보를 제공하고 생성할수있는 웹사이트를 만들고 싶어서 해당 토이 프로젝트를 진행하게 되었습니다.
 # 기능 
 
 <img width="1212" alt="스크린샷 2021-10-24 오후 11 46 04" src="https://user-images.githubusercontent.com/69393030/138599228-fc2806ac-cefb-4f5a-912c-c2e7a3b8163d.png">
@@ -82,7 +87,8 @@ jsp , spring boot , oracle , es6 , jquery , vue js (template)
 # wiki 글 편집기능 
 위키정보를 사용자가 수정할수 있도록 기능을 추가한다.
 해당곡의 난이도 , 작가 , 작곡가 , 영상 정보 등 을 수정할수있다.
-<img width="993" alt="스크린샷 2022-03-23 오후 3 59 10" src="https://user-images.githubusercontent.com/69393030/159641380-003e2cd2-ae91-4e82-9b08-d44e8eebd15d.png">
+
+<img width="942" alt="스크린샷 2022-03-26 오후 8 33 26" src="https://user-images.githubusercontent.com/69393030/160237528-53437ec2-40f4-4b33-90e8-92aafcfa6568.png">
 
 # ckeditor 를 이용한 여러개의 영상 첨부 
 <img width="1001" alt="스크린샷 2022-03-23 오후 5 24 08" src="https://user-images.githubusercontent.com/69393030/159655139-129e2ecd-e8e8-4bb6-928a-171fecd37caa.png">

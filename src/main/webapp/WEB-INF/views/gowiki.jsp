@@ -63,6 +63,9 @@ background-color:white;
 
 
 }
+.ip{
+text-align:center;
+}
 
 </style>
 </head>
@@ -93,7 +96,9 @@ background-color:white;
 
 
 	</nav>
+	<div id="ip">  </div>
 	<div class="search_bar">
+		
 		<form action="searchSongWiki" method="get">
 
 			<div class="input-group mb-3">
@@ -112,10 +117,10 @@ background-color:white;
 		
 		<div class="infomations">
 			<p>안녕하세요. 이 곳은 태고위키입니다.
-현재까지 총 문서수 ${count } 입니다.<br/>
-타인에게 불쾌감을 주는 미디어 컨텐츠 게시를 금지합니다.<br/>
-<strong>최근 음란, 혐오, 차별적 언어 등 반사회적 게시물에 대한 당국의 강도 높은 단속이 이뤄지고 있습니다.<br/> 이용자 여러분도 아시다시피 태고위키도 예외는 아닙니다. 이와 관련된 단어 및 이미지가 발견될 시 관리자 직권으로 해당 문구 삭제 혹은 문서 전체를 삭제할 수 있음을 알려드리며, 문서 작성 시 욕설과 비속어, 비하어 등 사회 정서에 맞지 않는 단어 사용을 지양해 주시기를 간곡히 당부드립니다. 감사합니다</strong>
-</p>
+			현재까지 총 문서수 ${count } 입니다.<br/>
+			타인에게 불쾌감을 주는 미디어 컨텐츠 게시를 금지합니다.<br/>
+			<strong>최근 음란, 혐오, 차별적 언어 등 반사회적 게시물에 대한 당국의 강도 높은 단속이 이뤄지고 있습니다.<br/> 이용자 여러분도 아시다시피 태고위키도 예외는 아닙니다. 이와 관련된 단어 및 이미지가 발견될 시 관리자 직권으로 해당 문구 삭제 혹은 문서 전체를 삭제할 수 있음을 알려드리며, 문서 작성 시 욕설과 비속어, 비하어 등 사회 정서에 맞지 않는 단어 사용을 지양해 주시기를 간곡히 당부드립니다. 감사합니다</strong>
+			</p>
 		</div>
 	</div>
 	
@@ -129,12 +134,22 @@ background-color:white;
 
 
 </body>
+<script type="application/javascript">
+  let ip = '';
+  function getIP(json) {
+	  ip = json.ip;
+  }
+</script>
+<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 
 document.addEventListener("DOMContentLoaded", function(){
+	console.log('ip=>' , ip)
+	const element = document.getElementById('ip');
+  	element.innerHTML = "<div style='color:red'><h1 class='ip'>현재 <strong>"+ip+"</strong> 주소로 접속하고 있습니다.</h1></div>";
 	getRecentWiki();
 	$("#songName").autocomplete({
 		source : function(request, response) {

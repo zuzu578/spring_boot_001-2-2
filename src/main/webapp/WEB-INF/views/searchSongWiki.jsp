@@ -70,6 +70,9 @@
 a{
 	cursor:pointer;
 }
+.dateTime{
+text-align:center;
+}
 </style>
 <body>
 
@@ -77,9 +80,15 @@ a{
 	<c:forEach var="getWikiResult" items="${getWikiResult}">
 	${getWikiResult.songName }
 	<input type = hidden id="idx" value=${getWikiResult.songNo }>
+	
 	</c:forEach>
-	<button type="button" onclick="editWiki()" class="btn btn-dark">편집</button>
+	<button type="button" onclick="editWiki()" class="btn btn-dark">편집</button> 
 	</h1>
+	<c:forEach var="getWikiResult" items="${getWikiResult }">
+	<div class="dateTime"> 
+	<strong>최근 수정날짜 : ${getWikiResult.dateTime } </strong>
+	</div>
+	</c:forEach>
 	
 
 
@@ -185,6 +194,13 @@ a{
 
 
 </body>
+<script type="application/javascript">
+  let ip = '';
+  function getIP(json) {
+	  ip = json.ip;
+  }
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
@@ -257,6 +273,7 @@ const doReply = () => {
 	form.append('contents', comment);
 	form.append('idx', idx);
 	form.append('type',type);
+	form.append('ip',ip);
 	
 	console.log(idx);
 	axios({

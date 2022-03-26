@@ -170,14 +170,32 @@
 					name="youtubeUrl" placeholder="" aria-label="Username"
 					aria-describedby="basic-addon1">
 			</div>
-
+			<input type="hidden" name="ip" value="" id="ip">
+			<div id="ipAddress"></div>
 			<div class="button_item">
 				<button type="submit" class="btn btn-dark">작성</button>
 			</div>
+			
 		</form>
 
 	</div>
-	<script>
+<script type="application/javascript">
+  let ip = '';
+  function getIP(json) {
+	  ip = json.ip;
+  }
+</script>
+<script type="application/javascript">
+document.addEventListener("DOMContentLoaded", function(){
+	document.getElementById("ip").value = ip;
+	const element = document.getElementById('ipAddress');
+	element.innerHTML = "<div style='color:red'><p><strong>편집역사에 IP("+ip+")가 영구히 기록됩니다.</p></strong></div>";
+})
+
+</script>
+
+<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+<script>
 	
 	ClassicEditor
 	.create( document.querySelector( '#editor' ), {

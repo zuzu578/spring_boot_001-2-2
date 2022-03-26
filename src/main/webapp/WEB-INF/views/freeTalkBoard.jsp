@@ -150,11 +150,17 @@ margin-bottom:100px}
 
 
 </body>
+
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-
-<script>
+<script type="application/javascript">
+  let ip = '';
+  function getIP(json) {
+	  ip = json.ip;
+  }
+</script>
+<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+<script type="application/javascript">
 let nowPage = 1;
 let isAbleToUpload = true;
 document.getElementById('inputGroupFile04').onchange = function () {
@@ -253,12 +259,14 @@ const getFreeBoardData = () => {
 	})
 }
 document.addEventListener("DOMContentLoaded", function(){
-	/* const commentUserNickName = document.getElementById("replyNickName").value;
-	const commentUserPassword = document.getElementById("replyPassWord").value;
-	const commentUserContents = document.getElementById("replyContents").value;
-	console.log("최초",commentUserNickName,commentUserPassword,commentUserContents) */
+	
 	getFreeBoardData();
+	console.log('ip===>',ip);
+	
+	
+
 });
+
 
 function doWriteReply(e){
 	$(e).prev().show()
@@ -293,7 +301,7 @@ const uploadFile = () =>{
 	 $.ajax({
    	  url:"/freeBoard",
    	  type:"POST",
-   	  data: {"nickName":nickName,"comment":comment,"password":password},
+   	  data: {"nickName":nickName,"comment":comment,"password":password,"ip":ip},
    	  success:function(){
    		  console.log("글자 데이터 성공")
    	  },
@@ -381,7 +389,7 @@ const writeReplies = (idx,e) =>{
 	  $.ajax({
 		  url:"/writeReply",
 	   	  type:"POST",
-	   	  data: {"idx":idx,"nickName":commentUserNickName,"password":commentUserPassword,"contents":commentUserContents,"type":type},
+	   	  data: {"idx":idx,"nickName":commentUserNickName,"password":commentUserPassword,"contents":commentUserContents,"type":type,"ip":ip},
 	   	  success:function(){
 	   		$('.commentArea').html('')
 	   		getFreeBoardData()

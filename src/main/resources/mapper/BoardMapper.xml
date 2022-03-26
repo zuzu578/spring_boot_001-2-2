@@ -171,10 +171,10 @@
 	<insert id="insertWikiSongInfo" parameterType="hashmap">
 		INSERT INTO
 		tb_taiko_wiki_content(song_description, song_description2,
-		song_writer,musicsheet_writer,song_recorded_version,song_name,youtube_url,SONG_GENRE,song_no)
+		song_writer,musicsheet_writer,song_recorded_version,song_name,youtube_url,SONG_GENRE,song_no,ip)
 		VALUES
 		(#{songDescription},#{song_description2},#{songWriter},#{musicSheetWriter},
-		#{musicVersion},#{songName},#{youtubeUrl},#{songGenre},taiko_wiki_seq.nextval)
+		#{musicVersion},#{songName},#{youtubeUrl},#{songGenre},taiko_wiki_seq.nextval,#{ip})
 
 
 	</insert>
@@ -196,8 +196,8 @@
 	
 	<insert id="writeFreeBoard" parameterType="hashMap">
 		INSERT INTO 
-		taiko_board (idx , nickname , boardCOMMENT ,password)
-		VALUES(replyBoard_seq.nextval ,'${nickName}' ,'${comment}','${password}')
+		taiko_board (idx , nickname , boardCOMMENT ,password,ip)
+		VALUES(replyBoard_seq.nextval ,'${nickName}' ,'${comment}','${password}','${ip}')
 	</insert> 
 	
 	<insert id="insertImageInfo" parameterType="hashmap">
@@ -224,6 +224,7 @@
 		t1.SONG_NAME as songName,
 		t1.SONG_GENRE as songGenre,
 		t1.SONG_NO as songNo,
+		t1.DATETIME as dateTime,
 		t1.youtube_url as youtubeUrl,
 		t1.SONG_DESCRIPTION as songDescription,
 		t2.kantan as kantan,
@@ -302,8 +303,8 @@
 	</select>
 	<insert id="writeReplies" parameterType="hashMap">
 	INSERT INTO
-		taiko_board_reply(idx,BOARDIDX,NICKNAME,REPLYCOMMENT,PASSWORD,BOARDTYPE)
-		VALUES(taiko_board_reply_comment_seq.nextval,'${idx}','${nickName}','${contents}','${password}','${type}')
+		taiko_board_reply(idx,BOARDIDX,NICKNAME,REPLYCOMMENT,PASSWORD,BOARDTYPE,IP)
+		VALUES(taiko_board_reply_comment_seq.nextval,'${idx}','${nickName}','${contents}','${password}','${type}','${ip}')
 	</insert>
 	
 	<select id="getReplyCount" parameterType="hashMap" resultType="int">
@@ -320,7 +321,8 @@
 	SONG_NAME = '${songName}',
 	YOUTUBE_URL = '${youtubeUrl}',
 	SONG_GENRE = '${songGenre}',
-	SONG_DESCRIPTION = '${songDescription}'
+	SONG_DESCRIPTION = '${songDescription}',
+	ip = '${ip}'
 	WHERE
 	SONG_NO = '${idx}'
 	
@@ -354,13 +356,15 @@
 	
 	<select id="getRecentWiki" resultType="com.example.demo.wikidto.TaikoWikiDto">
 	
-	SELECT 
-	SONG_NAME as songName,
-	SONG_GENRE as songGenre,
-	DATETIME as dateTime
-	
-	FROM TB_TAIKO_WIKI_CONTENT 
-	ORDER BY dateTime desc 
+	SELECT * FROM (
+			SELECT ROW_NUMBER()over(ORDER BY dateTime DESC) num,
+			SONG_NAME as songName,
+			SONG_GENRE as songGenre,
+			DATETIME as dateTime
+			FROM TB_TAIKO_WIKI_CONTENT 
+			ORDER BY dateTime desc 
+		)
+		WHERE num BETWEEN  1 AND 10   
 	
 	</select>
 	

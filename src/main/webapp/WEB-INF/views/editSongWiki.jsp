@@ -172,7 +172,8 @@
 			
 			 <h3>youtube url</h3>
 			 <textarea class="form-control" placeholder="Leave a comment here" name="youtubeUrl" id="youtubeUrl" style="height: 100px">${getWikiResult.youtubeUrl }</textarea>
-
+			 <input type="hidden" name="ip" id="ip" value="">
+			 <div id="ipAddress"></div>
 			<div class="button_item">
 				<button type="submit" class="btn btn-dark">편집</button>
 			</div>
@@ -180,6 +181,20 @@
 
 	</div>
 	</c:forEach>
+<script type="application/javascript">
+  let ip = '';
+  function getIP(json) {
+	  ip = json.ip;
+  }
+</script>
+<script type="application/javascript">
+document.addEventListener("DOMContentLoaded", function(){
+	document.getElementById("ip").value = ip;
+	const element = document.getElementById("ipAddress");
+	element.innerHTML = "<p><strong>편집 역사에 IP("+ip+")가 영구히 기록됩니다.</strong></p>";
+});
+</script>
+<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
 	<script>
 	
 	ClassicEditor

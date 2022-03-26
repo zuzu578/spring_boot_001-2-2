@@ -488,6 +488,7 @@ public class Controller {
 		String musicVersion = req.getParameter("musicVersion");
 		String songGenre = req.getParameter("songGenre");
 		String youtubeUrl = req.getParameter("youtubeUrl");
+		String ip = req.getParameter("ip");
 		
 		songInfo.put("songName", songName);
 		songInfo.put("songDescription", songDescription);
@@ -497,8 +498,8 @@ public class Controller {
 		songInfo.put("musicVersion", musicVersion);
 		songInfo.put("songGenre", songGenre);
 		songInfo.put("youtubeUrl", youtubeUrl);
+		songInfo.put("ip", ip);
 		
-
 		dao.insertWikiSongInfo(songInfo);
 
 		// 곡의 난이도 설명
@@ -609,6 +610,7 @@ public class Controller {
 		String songGenre = req.getParameter("songGenre");
 		String youtubeUrl = req.getParameter("youtubeUrl");
 		String idx = req.getParameter("idx");
+		String ip = req.getParameter("ip");
 		songInfo.put("songName", songName);
 		songInfo.put("songDescription", songDescription);
 		songInfo.put("song_description2", song_description2);
@@ -617,7 +619,7 @@ public class Controller {
 		songInfo.put("musicVersion", musicVersion);
 		songInfo.put("songGenre", songGenre);
 		songInfo.put("youtubeUrl", youtubeUrl);
-		
+		songInfo.put("ip", ip);
 		songInfo.put("idx", idx);
 		dao.updateSongWiki(songInfo);
 
@@ -730,7 +732,7 @@ public class Controller {
 	}
 	
 	@PostMapping("/freeBoard")
-	public ResponseEntity<?> writeFreeBoard(@RequestParam("nickName") String nickName,@RequestParam("comment") String comment,@RequestParam("password") String password) throws NoSuchAlgorithmException {
+	public ResponseEntity<?> writeFreeBoard(@RequestParam("nickName") String nickName,@RequestParam("comment") String comment,@RequestParam("password") String password,@RequestParam("ip") String ip) throws NoSuchAlgorithmException {
 		HashMap<String,Object> paramMap = new HashMap<String , Object>();
 		String salt = password;
 		String hex = null;
@@ -743,6 +745,7 @@ public class Controller {
 			paramMap.put("comment", comment);
 			paramMap.put("nickName", nickName);
 			paramMap.put("password", hex);
+			paramMap.put("ip",ip);
 			
 			dao.writeFreeBoard(paramMap);
 			
@@ -810,7 +813,7 @@ public class Controller {
 		
 	}
 	@PostMapping("/writeReply")
-	public ResponseEntity<?> writeReplies(@RequestParam("nickName") String nickName,@RequestParam("password") String password,@RequestParam("contents") String contents,@RequestParam("idx") String idx,@RequestParam("type") String type) throws NoSuchAlgorithmException{
+	public ResponseEntity<?> writeReplies(@RequestParam("nickName") String nickName,@RequestParam("password") String password,@RequestParam("contents") String contents,@RequestParam("idx") String idx,@RequestParam("type") String type,@RequestParam("ip")String ip) throws NoSuchAlgorithmException{
 		HashMap<String, Object> paramMap = new HashMap<String,Object>();
 		String salt = password;
 		String hex = null;
@@ -823,6 +826,7 @@ public class Controller {
 		paramMap.put("contents",contents);
 		paramMap.put("idx",idx);
 		paramMap.put("type",type);
+		paramMap.put("ip", ip);
 		
 		try {
 			

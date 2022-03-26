@@ -1,5 +1,7 @@
 # 태고의달인 사이트 
 <img src="https://taiko.namco-ch.net/taiko/images/top/img_mv.jpg">
+# 기술스택
+jsp , spring boot , oracle , es6 , jquery , vue js (template)
 1) 태고의달인 음원 , 채보 다운로드 , 유저 업로드 사이트
  
 2) 태고의달인 정보 (wiki 백과 ) 편집 , 작성 기능 

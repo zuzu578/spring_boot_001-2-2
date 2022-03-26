@@ -90,4 +90,8 @@ ckeditor 에서 embeded link 를 이용하여 여러개의 유튜브 링크를 �
 
 태고의달인 수록곡을 excel 문서화 하여 사용자한테 제공한다.
 <img width="1077" alt="스크린샷 2022-03-25 오후 5 20 29" src="https://user-images.githubusercontent.com/69393030/160082091-0931e123-65e0-4e05-9dc7-ae821cbb32b2.png">
-
+# wiki , 댓글 , 게시글 생성시 사용자 Ip 주소를 database 에 저장 
+<img width="840" alt="스크린샷 2022-03-26 오후 6 50 08" src="https://user-images.githubusercontent.com/69393030/160234190-82196477-dfe7-4c76-8c16-17dffb8cf47a.png">
+게시글을 작성하면 사용자의 ip 주소를 데이터베이스에 저장한다.
+<img width="942" alt="스크린샷 2022-03-26 오후 6 50 41" src="https://user-images.githubusercontent.com/69393030/160234220-a0da4ab8-156a-471d-a05c-d0995bef31b9.png">
+글을 편집 ,생성할때 ip 주소를 표기한다.
